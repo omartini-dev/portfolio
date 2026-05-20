@@ -3,49 +3,19 @@
 
 <section id="home" class="relative min-h-screen flex flex-col justify-center overflow-hidden pt-16">
 
-  <!-- Particle canvas (covers full hero) -->
-  <canvas id="particles-canvas" class="absolute inset-0 w-full h-full pointer-events-none" style="opacity: 0.5;"></canvas>
+  <!-- Three.js canvas -->
+  <canvas id="three-hero" class="absolute inset-0 w-full h-full pointer-events-none" style="z-index:0;"></canvas>
 
-  <!-- Gradient orbs -->
-  <div class="absolute top-0 right-0 w-[900px] h-[900px] rounded-full pointer-events-none"
-    style="background: radial-gradient(circle, rgba(99,102,241,0.14) 0%, transparent 60%); transform: translate(40%,-40%); animation: floatShape 10s ease-in-out infinite; --rot:0deg;">
-  </div>
-  <div class="absolute bottom-0 left-0 w-[700px] h-[700px] rounded-full pointer-events-none"
-    style="background: radial-gradient(circle, rgba(139,92,246,0.1) 0%, transparent 60%); transform: translate(-40%,40%); animation: floatShape 14s ease-in-out 2s infinite; --rot:0deg;">
-  </div>
-  <div class="absolute top-1/2 left-1/2 w-[500px] h-[500px] rounded-full pointer-events-none"
-    style="background: radial-gradient(circle, rgba(34,211,238,0.05) 0%, transparent 60%); transform: translate(-50%,-50%);">
-  </div>
+  <!-- Subtle dot grid overlay -->
+  <div class="absolute inset-0 dot-grid opacity-25 pointer-events-none" style="z-index:1;"></div>
 
-  <!-- Floating geometric shapes -->
-  <div class="absolute top-1/4 right-[22%] w-28 h-28 border border-indigo-500/10 pointer-events-none"
-    style="animation: floatShape 9s ease-in-out infinite; --rot:45deg; transform: rotate(45deg);">
-  </div>
-  <div class="absolute top-[68%] right-[35%] w-16 h-16 border border-violet-500/10 pointer-events-none"
-    style="animation: floatShape 12s ease-in-out 3s infinite; --rot:-12deg; transform: rotate(-12deg);">
-  </div>
-  <div class="absolute top-[30%] left-[8%] w-10 h-10 border border-cyan-400/10 pointer-events-none"
-    style="animation: floatShape 11s ease-in-out 1.5s infinite; --rot:20deg; transform: rotate(20deg);">
-  </div>
-  <div class="absolute top-[55%] left-[20%] w-5 h-5 bg-indigo-500/10 rounded-full pointer-events-none"
-    style="animation: floatShape 8s ease-in-out 0.5s infinite; --rot:0deg;">
-  </div>
-  <div class="absolute top-[15%] right-[10%] w-3 h-3 bg-violet-400/20 rounded-full pointer-events-none"
-    style="animation: floatShape 7s ease-in-out 2s infinite; --rot:0deg;">
-  </div>
-
-  <!-- Dot grid overlay -->
-  <div class="absolute inset-0 dot-grid opacity-40 pointer-events-none"></div>
-
-  <div class="relative max-w-6xl mx-auto px-6 w-full py-20 lg:py-32">
+  <!-- Content -->
+  <div class="relative max-w-6xl mx-auto px-6 w-full py-20 lg:py-32" style="z-index:2;">
     <div class="grid grid-cols-1 lg:grid-cols-5 gap-16 items-center">
 
-      <!-- Left: Content -->
+      <!-- Left -->
       <div class="lg:col-span-3 space-y-8">
-
-        <!-- Badge -->
-        <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-emerald-500/20 bg-emerald-500/5 text-emerald-400 text-sm font-medium"
-          style="animation: fadeIn 0.8s ease-out forwards;">
+        <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-emerald-500/20 bg-emerald-500/5 text-emerald-400 text-sm font-medium" style="animation: fadeUp 0.6s ease-out both;">
           <span class="relative flex h-2 w-2">
             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
             <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
@@ -53,39 +23,30 @@
           Available for new projects
         </div>
 
-        <!-- Name -->
-        <div style="animation: fadeUp 0.8s ease-out 0.15s both;">
+        <div style="animation: fadeUp 0.6s ease-out 0.12s both;">
           <h1 class="font-black leading-none tracking-tight">
             <span class="block text-5xl md:text-7xl xl:text-8xl text-white">Osvaldo</span>
             <span class="block text-5xl md:text-7xl xl:text-8xl gradient-text-animated">Martini</span>
           </h1>
-          <p class="mt-5 text-lg md:text-xl text-zinc-400 font-medium tracking-wide">
-            Senior Frontend Engineer & Studio Founder
-          </p>
+          <p class="mt-5 text-lg md:text-xl text-zinc-400 font-medium">Senior Frontend Engineer & Studio Founder</p>
         </div>
 
-        <!-- Description -->
-        <p class="text-zinc-400 text-lg leading-relaxed max-w-xl" style="animation: fadeUp 0.8s ease-out 0.3s both;">
+        <p class="text-zinc-400 text-lg leading-relaxed max-w-xl" style="animation: fadeUp 0.6s ease-out 0.24s both;">
           11+ years building high-performance marketing websites for B2B SaaS companies.
           Specializing in <span class="text-white font-medium">Astro</span>,
           <span class="text-white font-medium">Next.js</span>, and
-          <span class="text-white font-medium">headless CMS</span> architectures
-          that score 100 on Lighthouse and actually convert.
+          <span class="text-white font-medium">headless CMS</span> architectures that score 100 on Lighthouse.
         </p>
 
-        <!-- CTAs -->
-        <div class="flex flex-wrap gap-4" style="animation: fadeUp 0.8s ease-out 0.45s both;">
+        <div class="flex flex-wrap gap-4" style="animation: fadeUp 0.6s ease-out 0.36s both;">
           <a href="#work" class="btn-primary text-base">
             View My Work
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
           <a href="#contact" class="btn-secondary text-base">Get In Touch ↗</a>
         </div>
 
-        <!-- Social links -->
-        <div class="flex flex-wrap items-center gap-6 text-sm text-zinc-500" style="animation: fadeUp 0.8s ease-out 0.6s both;">
+        <div class="flex flex-wrap items-center gap-6 text-sm text-zinc-500" style="animation: fadeUp 0.6s ease-out 0.48s both;">
           <a href="mailto:osvaldo.martini.dev@gmail.com" class="hover:text-zinc-300 transition-colors flex items-center gap-1.5">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
             Email
@@ -105,12 +66,11 @@
         </div>
       </div>
 
-      <!-- Right: Terminal with float + shimmer -->
+      <!-- Right: Terminal -->
       <div class="lg:col-span-2 hidden lg:block" style="animation: floatShape 8s ease-in-out infinite; --rot:0deg;">
         <div class="terminal relative overflow-hidden">
-          <!-- Shimmer sweep -->
           <div class="absolute inset-0 pointer-events-none z-10"
-            style="background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.03) 50%, transparent 60%); animation: shimmer 4s ease infinite;">
+            style="background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.025) 50%, transparent 60%); animation: shimmer 5s ease infinite;">
           </div>
           <div class="terminal-header">
             <div class="terminal-dot" style="background:#ff5f57"></div>
@@ -134,7 +94,7 @@
             <div><span class="t-score">SEO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;<span class="t-success">100</span>&nbsp;<span class="t-success">██████████</span></div>
             <br/>
             <div><span class="t-highlight">LCP </span>&nbsp;&nbsp;<span class="t-cmd">0.31s</span>&nbsp;&nbsp;<span class="t-success">●</span></div>
-            <div><span class="t-highlight">FID </span>&nbsp;&nbsp;<span class="t-cmd">0ms&nbsp;&nbsp;</span>&nbsp;&nbsp;<span class="t-success">●</span></div>
+            <div><span class="t-highlight">FID </span>&nbsp;&nbsp;<span class="t-cmd">0ms  </span>&nbsp;&nbsp;<span class="t-success">●</span></div>
             <div><span class="t-highlight">CLS </span>&nbsp;&nbsp;<span class="t-cmd">0.00 </span>&nbsp;&nbsp;<span class="t-success">●</span></div>
             <br/>
             <div class="t-success">✓ Build complete in 0.8s<span style="animation: blink 1.2s step-end infinite; color:#6366f1">_</span></div>
@@ -143,40 +103,169 @@
       </div>
     </div>
 
-    <!-- Animated stats bar -->
-    <div class="mt-20 pt-8 border-t border-zinc-800/60 grid grid-cols-2 md:grid-cols-4 gap-8"
-      style="animation: fadeUp 0.8s ease-out 0.75s both;">
-      <div>
-        <div class="text-3xl font-black text-white" data-count="11" data-suffix="+">0+</div>
-        <div class="text-sm text-zinc-500 mt-1">Years Experience</div>
-      </div>
-      <div>
-        <div class="text-3xl font-black text-white" data-count="30" data-suffix="+">0+</div>
-        <div class="text-sm text-zinc-500 mt-1">Projects Delivered</div>
-      </div>
-      <div>
-        <div class="text-3xl font-black text-white" data-count="100" data-suffix="">0</div>
-        <div class="text-sm text-zinc-500 mt-1">Lighthouse Scores</div>
-      </div>
-      <div>
-        <div class="text-3xl font-black text-white" data-count="3" data-suffix="">0</div>
-        <div class="text-sm text-zinc-500 mt-1">Industries Served</div>
-      </div>
+    <!-- Animated stats -->
+    <div class="mt-20 pt-8 border-t border-zinc-800/60 grid grid-cols-2 md:grid-cols-4 gap-8" style="animation: fadeUp 0.6s ease-out 0.6s both;">
+      <div><div class="text-3xl font-black text-white" data-count="11" data-suffix="+">0+</div><div class="text-sm text-zinc-500 mt-1">Years Experience</div></div>
+      <div><div class="text-3xl font-black text-white" data-count="30" data-suffix="+">0+</div><div class="text-sm text-zinc-500 mt-1">Projects Delivered</div></div>
+      <div><div class="text-3xl font-black text-white" data-count="100" data-suffix="">0</div><div class="text-sm text-zinc-500 mt-1">Lighthouse Scores</div></div>
+      <div><div class="text-3xl font-black text-white" data-count="3" data-suffix="">0</div><div class="text-sm text-zinc-500 mt-1">Industries Served</div></div>
     </div>
   </div>
 </section>
 
 <style>
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-  }
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50%       { opacity: 0; }
-  }
+  @keyframes fadeUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes blink  { 0%,100% { opacity:1; } 50% { opacity:0; } }
 </style>
+
+<script>
+  import * as THREE from 'three';
+
+  const canvas = document.getElementById('three-hero') as HTMLCanvasElement | null;
+  if (!canvas) throw new Error('no canvas');
+
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 200);
+  camera.position.set(0, 0, 14);
+
+  const resize = () => {
+    const W = canvas.clientWidth, H = canvas.clientHeight;
+    camera.aspect = W / H;
+    camera.updateProjectionMatrix();
+    renderer.setSize(W, H);
+  };
+  resize();
+  window.addEventListener('resize', resize);
+
+  // ── Main icosahedron group ──────────────────────
+  const icoGeo = new THREE.IcosahedronGeometry(2.8, 1);
+  const icoGroup = new THREE.Group();
+
+  icoGroup.add(new THREE.Mesh(
+    icoGeo,
+    new THREE.MeshPhongMaterial({ color: 0x312e81, transparent: true, opacity: 0.05, side: THREE.DoubleSide })
+  ));
+  icoGroup.add(new THREE.LineSegments(
+    new THREE.EdgesGeometry(icoGeo),
+    new THREE.LineBasicMaterial({ color: 0x6366f1, transparent: true, opacity: 0.75 })
+  ));
+  scene.add(icoGroup);
+
+  // ── Orbital rings ───────────────────────────────
+  const ring = (r: number, tube: number, color: number, opacity: number, rx: number, ry: number) => {
+    const m = new THREE.Mesh(
+      new THREE.TorusGeometry(r, tube, 8, 120),
+      new THREE.MeshBasicMaterial({ color, transparent: true, opacity })
+    );
+    m.rotation.set(rx, ry, 0);
+    scene.add(m);
+    return m;
+  };
+  const r1 = ring(5.2, 0.014, 0x8b5cf6, 0.35, Math.PI * 0.2,  0);
+  const r2 = ring(7.4, 0.009, 0x22d3ee, 0.18, Math.PI * 0.55, Math.PI * 0.25);
+  const r3 = ring(4.0, 0.017, 0x6366f1, 0.22, Math.PI * 0.75, Math.PI * 0.1);
+
+  // ── Satellite objects ───────────────────────────
+  const SAT = [
+    { G: new THREE.OctahedronGeometry(0.45),      c: 0xa855f7, r: 5.2,  s: 0.9,  p: 0    },
+    { G: new THREE.IcosahedronGeometry(0.32, 0),  c: 0x22d3ee, r: 6.8,  s: 0.55, p: 2.1  },
+    { G: new THREE.TetrahedronGeometry(0.42),      c: 0x818cf8, r: 4.6,  s: 1.3,  p: 1.2  },
+    { G: new THREE.BoxGeometry(0.38, 0.38, 0.38), c: 0x67e8f9, r: 7.2,  s: 0.35, p: 3.8  },
+    { G: new THREE.OctahedronGeometry(0.28),       c: 0xf0abfc, r: 5.6,  s: 0.75, p: 5.1  },
+    { G: new THREE.IcosahedronGeometry(0.22, 0),  c: 0x6366f1, r: 4.0,  s: 1.8,  p: 2.8  },
+  ];
+
+  const sats = SAT.map(d => {
+    const useEdge = Math.random() > 0.5;
+    let mesh: THREE.Object3D;
+    if (useEdge) {
+      mesh = new THREE.LineSegments(
+        new THREE.EdgesGeometry(d.G),
+        new THREE.LineBasicMaterial({ color: d.c, transparent: true, opacity: 0.8 })
+      );
+    } else {
+      mesh = new THREE.Mesh(d.G,
+        new THREE.MeshPhongMaterial({ color: d.c, emissive: d.c, emissiveIntensity: 0.3, transparent: true, opacity: 0.9 })
+      );
+    }
+    scene.add(mesh);
+    return { mesh, ...d };
+  });
+
+  // ── Particles ───────────────────────────────────
+  const N = 900;
+  const pos = new Float32Array(N * 3);
+  const col = new Float32Array(N * 3);
+  const palette = [new THREE.Color(0x6366f1), new THREE.Color(0x8b5cf6), new THREE.Color(0x22d3ee), new THREE.Color(0xa855f7)];
+  for (let i = 0; i < N; i++) {
+    const rr = 9 + Math.random() * 14;
+    const theta = Math.random() * Math.PI * 2;
+    const phi = Math.acos(2 * Math.random() - 1);
+    pos[i*3] = rr * Math.sin(phi) * Math.cos(theta);
+    pos[i*3+1] = rr * Math.sin(phi) * Math.sin(theta);
+    pos[i*3+2] = rr * Math.cos(phi);
+    const c = palette[Math.floor(Math.random() * palette.length)];
+    col[i*3] = c.r; col[i*3+1] = c.g; col[i*3+2] = c.b;
+  }
+  const pGeo = new THREE.BufferGeometry();
+  pGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  pGeo.setAttribute('color',    new THREE.BufferAttribute(col, 3));
+  const particles = new THREE.Points(pGeo, new THREE.PointsMaterial({ size: 0.06, vertexColors: true, transparent: true, opacity: 0.75 }));
+  scene.add(particles);
+
+  // ── Lights ──────────────────────────────────────
+  scene.add(new THREE.AmbientLight(0x404060, 3));
+  const L1 = new THREE.PointLight(0x6366f1, 5, 30); L1.position.set(6, 6, 6);   scene.add(L1);
+  const L2 = new THREE.PointLight(0x22d3ee, 3, 25); L2.position.set(-6, -4, 4); scene.add(L2);
+
+  // ── Mouse ───────────────────────────────────────
+  let mx = 0, my = 0;
+  window.addEventListener('mousemove', e => {
+    mx = (e.clientX / innerWidth)  * 2 - 1;
+    my = -(e.clientY / innerHeight) * 2 + 1;
+  });
+
+  // ── Animate ─────────────────────────────────────
+  let t = 0;
+  const animate = () => {
+    requestAnimationFrame(animate);
+    t += 0.004;
+
+    icoGroup.rotation.x = t * 0.38;
+    icoGroup.rotation.y = t * 0.6;
+
+    r1.rotation.z = t * 0.28;
+    r2.rotation.x = Math.PI * 0.55 + t * 0.18;
+    r2.rotation.z = t * 0.12;
+    r3.rotation.y = t * 0.35;
+
+    sats.forEach(s => {
+      const a = t * s.s + s.p;
+      (s.mesh as THREE.Object3D).position.set(
+        Math.cos(a) * s.r,
+        Math.sin(a * 0.65) * s.r * 0.5,
+        Math.sin(a) * s.r * 0.7
+      );
+      (s.mesh as THREE.Object3D).rotation.x += 0.012;
+      (s.mesh as THREE.Object3D).rotation.y += 0.018;
+    });
+
+    particles.rotation.y = t * 0.08;
+    particles.rotation.x = t * 0.04;
+
+    camera.position.x += (mx * 2.5 - camera.position.x) * 0.035;
+    camera.position.y += (my * 1.8 - camera.position.y) * 0.035;
+    camera.lookAt(0, 0, 0);
+
+    L1.position.x = Math.sin(t * 0.7) * 8;
+    L1.position.y = Math.cos(t * 0.5) * 6;
+    L2.position.x = Math.cos(t * 0.6) * 7;
+    L2.position.y = Math.sin(t * 0.8) * 5;
+
+    renderer.render(scene, camera);
+  };
+  animate();
+</script>
