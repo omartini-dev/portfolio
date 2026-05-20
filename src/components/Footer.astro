@@ -1,0 +1,25 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-zinc-800/60 py-10 px-6">
+  <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+    <div class="flex items-center gap-1 text-lg font-black">
+      <span class="text-white">om</span><span class="text-indigo-400">.</span>
+    </div>
+
+    <div class="text-zinc-600 text-sm text-center">
+      © {year} Osvaldo Martini · Built with
+      <a href="https://astro.build" target="_blank" rel="noopener" class="text-zinc-500 hover:text-white transition-colors">Astro</a>
+      +
+      <a href="https://tailwindcss.com" target="_blank" rel="noopener" class="text-zinc-500 hover:text-white transition-colors">Tailwind CSS</a>
+      · Scores 100 on Lighthouse
+    </div>
+
+    <div class="flex items-center gap-6 text-zinc-600 text-sm">
+      <a href="mailto:osvaldo.martini.dev@gmail.com" class="hover:text-zinc-300 transition-colors">Email</a>
+      <a href="https://linkedin.com/in/osvaldo-martini-bb830b40b/" target="_blank" rel="noopener" class="hover:text-zinc-300 transition-colors">LinkedIn</a>
+      <a href="https://github.com/omartini-dev" target="_blank" rel="noopener" class="hover:text-zinc-300 transition-colors">GitHub</a>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,136 @@
+---
+const services = [
+  {
+    icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>`,
+    title: 'Marketing Website Development',
+    description:
+      'Full-stack Astro or Next.js sites with headless CMS integration. Designed for speed, SEO, and editor happiness. Delivered from design to deployment.',
+  },
+  {
+    icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 17.5h7M17.5 14v7"/></svg>`,
+    title: 'Headless CMS Integration',
+    description:
+      'Sanity, Contentful, or Storyblok — structured content models, custom schemas, editorial workflows, and preview environments your marketing team will love.',
+  },
+  {
+    icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>`,
+    title: 'Performance Optimization Audit',
+    description:
+      'Core Web Vitals deep-dive for your existing site. Identify bottlenecks, implement fixes, and hit that Lighthouse 100. Measurable results, documented improvements.',
+  },
+  {
+    icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>`,
+    title: 'Design System & Component Library',
+    description:
+      'Scalable, documented component libraries built with Storybook. From design tokens to production-ready atoms — consistent UI that scales across your entire product.',
+  },
+];
+
+const stack = [
+  { name: 'Astro', description: 'Zero-JS by default · Ships 94% less JS than Next.js', color: '#FF5D01' },
+  { name: 'Sanity', description: 'Structured content · Real-time collaboration · GROQ queries', color: '#F03E2F' },
+  { name: 'TypeScript', description: 'Strict types · Zero runtime surprises · Better DX', color: '#3178C6' },
+  { name: 'Tailwind CSS', description: 'Utility-first · Zero unused CSS · Design token ready', color: '#06B6D4' },
+  { name: 'Vercel', description: 'Edge network · Preview deploys · Instant rollbacks', color: '#fff' },
+];
+---
+
+<section id="studio" class="py-24 px-6 relative overflow-hidden">
+  <!-- Accent background -->
+  <div class="absolute inset-0 pointer-events-none">
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full"
+      style="background: radial-gradient(ellipse, rgba(99,102,241,0.07) 0%, transparent 70%);">
+    </div>
+  </div>
+
+  <div class="max-w-6xl mx-auto relative">
+    <!-- Header -->
+    <div class="reveal text-center mb-20">
+      <div class="section-label">The Studio</div>
+      <h2 class="text-4xl md:text-6xl font-black text-white leading-tight mb-6">
+        A boutique studio for<br/>
+        <span class="gradient-text">the modern web.</span>
+      </h2>
+      <p class="text-zinc-400 text-xl max-w-2xl mx-auto leading-relaxed">
+        I spent 11 years building with React and Next.js. Great tools —
+        but I kept hitting the same wall: too much JavaScript, slow editors, and
+        Lighthouse scores that needed constant firefighting.
+      </p>
+    </div>
+
+    <!-- Manifesto block -->
+    <div class="reveal card p-8 md:p-12 mb-16 relative overflow-hidden">
+      <div class="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-indigo-500 via-violet-500 to-cyan-500 rounded-l-2xl"></div>
+      <blockquote class="ml-4">
+        <p class="text-xl md:text-2xl text-zinc-200 leading-relaxed font-medium italic">
+          "Then I discovered Astro. Pages started loading in 0.3 seconds.
+          Editors stopped complaining. Google started ranking. Clients got more leads.
+          I haven't looked back — and I'm building everything with it now."
+        </p>
+        <footer class="mt-6 text-zinc-500 text-sm">— Osvaldo Martini, 2024</footer>
+      </blockquote>
+    </div>
+
+    <!-- The Stack -->
+    <div class="reveal mb-20">
+      <div class="text-center mb-10">
+        <div class="section-label">The Stack</div>
+        <h3 class="text-2xl font-bold text-white">Every tool chosen for a reason.</h3>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+        {stack.map((t, i) => (
+          <div class={`reveal reveal-delay-${i + 1} card p-5 text-center group hover:-translate-y-1 transition-transform duration-200`}>
+            <div class="text-lg font-black mb-2" style={`color: ${t.color};`}>{t.name}</div>
+            <div class="text-zinc-500 text-xs leading-relaxed">{t.description}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Before / After comparison -->
+    <div class="reveal card p-8 mb-16">
+      <h3 class="text-xl font-bold text-white mb-6 text-center">What the switch looks like.</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="rounded-xl bg-red-500/5 border border-red-500/15 p-6">
+          <div class="text-red-400 text-xs font-semibold uppercase tracking-wider mb-4">Before (Next.js)</div>
+          <div class="space-y-3 font-mono text-sm">
+            <div class="flex justify-between"><span class="text-zinc-500">LCP</span><span class="text-red-400">3.2s</span></div>
+            <div class="flex justify-between"><span class="text-zinc-500">JS Bundle</span><span class="text-red-400">220KB</span></div>
+            <div class="flex justify-between"><span class="text-zinc-500">Performance</span><span class="text-red-400">67</span></div>
+            <div class="flex justify-between"><span class="text-zinc-500">CMS deploy</span><span class="text-red-400">2–4 min</span></div>
+            <div class="flex justify-between"><span class="text-zinc-500">Editor NPS</span><span class="text-red-400">😐</span></div>
+          </div>
+        </div>
+        <div class="rounded-xl bg-emerald-500/5 border border-emerald-500/15 p-6">
+          <div class="text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-4">After (Astro + Sanity)</div>
+          <div class="space-y-3 font-mono text-sm">
+            <div class="flex justify-between"><span class="text-zinc-500">LCP</span><span class="text-emerald-400">0.31s</span></div>
+            <div class="flex justify-between"><span class="text-zinc-500">JS Bundle</span><span class="text-emerald-400">11KB</span></div>
+            <div class="flex justify-between"><span class="text-zinc-500">Performance</span><span class="text-emerald-400">100</span></div>
+            <div class="flex justify-between"><span class="text-zinc-500">CMS deploy</span><span class="text-emerald-400">8s</span></div>
+            <div class="flex justify-between"><span class="text-zinc-500">Editor NPS</span><span class="text-emerald-400">😍</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Services -->
+    <div class="reveal">
+      <div class="text-center mb-10">
+        <div class="section-label">Services</div>
+        <h3 class="text-2xl font-bold text-white">What I build for you.</h3>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {services.map((s, i) => (
+          <div class={`reveal reveal-delay-${(i % 2) + 1} card p-6 group hover:-translate-y-1 transition-transform duration-200`}>
+            <div class="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 mb-4 group-hover:bg-indigo-500/20 transition-colors duration-200">
+              <Fragment set:html={s.icon} />
+            </div>
+            <div class="text-white font-bold mb-2">{s.title}</div>
+            <div class="text-zinc-400 text-sm leading-relaxed">{s.description}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

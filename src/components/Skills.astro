@@ -1,0 +1,74 @@
+---
+const categories = [
+  {
+    label: 'Core Frameworks',
+    color: '#6366f1',
+    skills: ['Astro', 'Next.js', 'React', 'Vue.js', 'Svelte'],
+  },
+  {
+    label: 'Languages',
+    color: '#f59e0b',
+    skills: ['TypeScript', 'JavaScript (ES6+)', 'HTML5', 'CSS3'],
+  },
+  {
+    label: 'Styling',
+    color: '#06b6d4',
+    skills: ['Tailwind CSS', 'Sass / SCSS', 'CSS Modules', 'CSS-in-JS', 'Responsive Design'],
+  },
+  {
+    label: 'CMS Platforms',
+    color: '#ec4899',
+    skills: ['Sanity', 'Contentful', 'Storyblok', 'Prismic', 'WordPress (Headless)'],
+  },
+  {
+    label: 'Performance',
+    color: '#22c55e',
+    skills: ['Core Web Vitals', 'LCP / FID / CLS', 'SSR / SSG / ISR', 'Code Splitting', 'Image Optimization', 'Lighthouse'],
+  },
+  {
+    label: 'Architecture',
+    color: '#a855f7',
+    skills: ['Component-Driven Dev', 'Design Systems', 'REST API Integration', 'Headless Architecture', 'Monorepos'],
+  },
+  {
+    label: 'Tooling & DevOps',
+    color: '#fb923c',
+    skills: ['Git', 'Vercel', 'Netlify', 'Cloudflare Pages', 'Vite', 'Webpack', 'Storybook'],
+  },
+  {
+    label: 'Process',
+    color: '#94a3b8',
+    skills: ['Agile / Scrum', 'Design Handoff (Figma)', 'Cross-functional Teams', 'Technical Leadership', 'Code Review'],
+  },
+];
+---
+
+<section id="skills" class="py-24 px-6 bg-[#0c0c0e]">
+  <div class="max-w-6xl mx-auto">
+    <div class="reveal mb-16">
+      <div class="section-label">Technical Skills</div>
+      <h2 class="text-4xl md:text-5xl font-bold text-white leading-tight">
+        The full stack<br/>
+        <span class="gradient-text">at a glance.</span>
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {categories.map((cat, i) => (
+        <div class={`reveal reveal-delay-${(i % 4) + 1} card p-6`}>
+          <div class="flex items-center gap-2.5 mb-4">
+            <div class="w-2 h-2 rounded-full" style={`background: ${cat.color};`}></div>
+            <div class="text-xs font-semibold uppercase tracking-[0.15em]" style={`color: ${cat.color};`}>
+              {cat.label}
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            {cat.skills.map((s) => (
+              <span class="tech-badge">{s}</span>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

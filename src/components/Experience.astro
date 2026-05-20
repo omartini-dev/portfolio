@@ -1,0 +1,174 @@
+---
+const jobs = [
+  {
+    num: '01',
+    company: 'Webstacks',
+    role: 'Senior Frontend Engineer',
+    period: 'Sep 2020 – Present',
+    duration: '4+ years',
+    type: 'Agency · Remote',
+    color: '#6366f1',
+    highlights: [
+      'Delivered 10+ B2B SaaS marketing websites, contributing to 15–30% conversion rate improvements via performance and UX optimization.',
+      'Reduced average page load time by 30–50% using SSR optimization, code splitting, and asset optimization strategies.',
+      'Led frontend architecture for reusable component systems across client projects, cutting development time by 25–35%.',
+      'Refined Core Web Vitals across production sites — LCP under 2.5s on key pages with measurable SEO ranking lifts.',
+      'Shipped 20+ production releases per quarter within distributed Agile teams.',
+    ],
+    stack: ['React', 'Next.js', 'Astro', 'TypeScript', 'Sanity', 'Tailwind CSS', 'Vercel'],
+  },
+  {
+    num: '02',
+    company: 'Reply',
+    role: 'Frontend Developer',
+    period: 'Aug 2018 – Sep 2020',
+    duration: '2 years',
+    type: 'Consultancy · Milan',
+    color: '#8b5cf6',
+    highlights: [
+      'Built enterprise frontend applications for finance, telecom, and industrial clients — platforms serving 50,000+ users.',
+      'Developed reusable component libraries in React and Vue.js, improving UI consistency across 8+ enterprise applications.',
+      'Integrated REST APIs handling 10k–100k+ daily requests depending on client system.',
+      'Led migration of legacy jQuery-based systems to modern frameworks, reducing maintenance effort by 40%.',
+      'Reduced UI-related production incidents by 25% through systematic refactoring and standardization.',
+    ],
+    stack: ['React', 'Vue.js', 'JavaScript', 'REST APIs', 'Sass', 'Webpack'],
+  },
+  {
+    num: '03',
+    company: 'Alten Italia',
+    role: 'Web Developer',
+    period: 'Oct 2014 – Aug 2018',
+    duration: '4 years',
+    type: 'Engineering Consultancy · Italy',
+    color: '#22d3ee',
+    highlights: [
+      'Built responsive UI components for enterprise portals serving 10,000–30,000+ users per client system.',
+      'Built financial intelligence platforms using Next.js and data-driven page architectures.',
+      'Assisted migration of legacy frontend systems, improving maintainability and long-term stability.',
+      'Decreased recurring UI bugs by 20% through structured fixes and regression testing support.',
+      'Focused on performance, SEO, and scalable component architecture across multiple client engagements.',
+    ],
+    stack: ['JavaScript', 'jQuery', 'HTML5', 'CSS3', 'Next.js', 'Bootstrap'],
+  },
+];
+---
+
+<section id="experience" class="py-24 px-6 relative overflow-hidden bg-[#0c0c0e]">
+
+  <!-- Giant decorative watermark -->
+  <div class="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
+    <span class="font-black text-white leading-none tracking-tighter whitespace-nowrap"
+      style="font-size: clamp(80px, 22vw, 280px); opacity: 0.018;">CAREER</span>
+  </div>
+
+  <!-- Top gradient fade -->
+  <div class="absolute top-0 left-0 right-0 h-32 pointer-events-none"
+    style="background: linear-gradient(to bottom, #0c0c0e, transparent);"></div>
+
+  <div class="max-w-6xl mx-auto relative">
+
+    <!-- Header -->
+    <div class="reveal mb-20">
+      <div class="section-label">Experience</div>
+      <h2 class="text-4xl md:text-6xl font-black text-white leading-tight">
+        11 years,<br/>
+        <span class="gradient-text-animated">three chapters.</span>
+      </h2>
+      <p class="mt-4 text-zinc-500 max-w-lg">
+        From enterprise consulting to agency work — building products at every scale.
+      </p>
+    </div>
+
+    <!-- Cards -->
+    <div class="space-y-8">
+      {jobs.map((job, i) => (
+        <div
+          class={`reveal reveal-delay-${i + 1} tilt-card relative group`}
+          data-tilt="6"
+        >
+          <!-- Card number badge -->
+          <div class="absolute -top-3.5 left-8 z-20">
+            <span class="font-mono text-xs bg-[#0c0c0e] border border-zinc-800 text-zinc-600 px-3 py-1 rounded-full">
+              {job.num}
+            </span>
+          </div>
+
+          <!-- Tilt target -->
+          <div class="tilt-inner bg-[#111113] border border-zinc-800 rounded-2xl p-8 md:p-10 overflow-hidden relative">
+
+            <!-- Mouse-tracking spotlight -->
+            <div class="spotlight"></div>
+
+            <!-- Giant faded company name in background -->
+            <div
+              class="absolute right-0 bottom-0 font-black leading-none select-none pointer-events-none translate-x-6 translate-y-4 z-0"
+              style={`color: ${job.color}; opacity: 0.035; font-size: clamp(50px, 8vw, 110px);`}
+            >
+              {job.company.toUpperCase()}
+            </div>
+
+            <!-- Animated left accent bar that grows on group-hover -->
+            <div
+              class="absolute left-0 top-8 bottom-8 w-0.5 rounded-full transition-all duration-500 group-hover:top-4 group-hover:bottom-4"
+              style={`background: linear-gradient(to bottom, ${job.color}, ${job.color}44);`}
+            ></div>
+
+            <!-- Header row -->
+            <div class="flex flex-wrap items-start justify-between gap-6 mb-8 relative z-10 pl-4">
+              <div>
+                <div class="flex items-center gap-2.5 mb-2">
+                  <div class="w-2 h-2 rounded-full flex-shrink-0" style={`background: ${job.color};`}></div>
+                  <span class="text-xs uppercase tracking-[0.18em] font-semibold" style={`color: ${job.color};`}>
+                    {job.type}
+                  </span>
+                </div>
+                <div class="text-3xl md:text-4xl font-black text-white">{job.company}</div>
+                <div class="text-lg text-zinc-400 font-medium mt-1">{job.role}</div>
+              </div>
+
+              <div class="text-right flex-shrink-0">
+                <div class="text-sm font-mono text-zinc-500">{job.period}</div>
+                <div
+                  class="inline-flex mt-2 px-3 py-1 rounded-full text-xs font-semibold border"
+                  style={`background: ${job.color}12; color: ${job.color}; border-color: ${job.color}30;`}
+                >
+                  {job.duration}
+                </div>
+              </div>
+            </div>
+
+            <!-- Highlights — 2-column grid of mini-cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-8 relative z-10 pl-4">
+              {job.highlights.map((h, hi) => (
+                <div
+                  class="flex gap-3 p-4 rounded-xl border border-zinc-800/50 bg-zinc-900/20 hover:border-zinc-700 hover:bg-zinc-900/50 transition-all duration-200 group/item"
+                  style={`animation-delay: ${hi * 0.06}s;`}
+                >
+                  <div class="flex-shrink-0 mt-0.5">
+                    <div
+                      class="w-5 h-5 rounded-full flex items-center justify-center"
+                      style={`background: ${job.color}18;`}
+                    >
+                      <div class="w-1.5 h-1.5 rounded-full" style={`background: ${job.color};`}></div>
+                    </div>
+                  </div>
+                  <span class="text-zinc-400 text-sm leading-relaxed group-hover/item:text-zinc-300 transition-colors duration-200">
+                    {h}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            <!-- Tech stack -->
+            <div class="flex flex-wrap gap-2 pt-6 border-t border-zinc-800/40 relative z-10 pl-4">
+              {job.stack.map(t => (
+                <span class="tech-badge-glow">{t}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
