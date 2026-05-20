@@ -1,0 +1,573 @@
+---
+---
+
+<!-- ─── Floating Enjoy Button ─────────────────────── -->
+<button
+  id="enjoy-btn"
+  title="Play a game!"
+  class="fixed bottom-8 right-8 z-[100] flex items-center gap-2.5 px-5 py-3 rounded-full font-semibold text-sm text-white border border-indigo-500/30 bg-black/60 backdrop-blur-md hover:bg-indigo-500 hover:border-indigo-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-indigo-500/30 group"
+>
+  <span class="relative flex h-2 w-2">
+    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+    <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+  </span>
+  <span>Enjoy</span>
+  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" class="opacity-60 group-hover:opacity-100 transition-opacity">
+    <path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</button>
+
+<!-- ─── Full-screen game overlay ──────────────────── -->
+<div id="game-overlay" class="fixed inset-0 z-[9999] bg-black hidden">
+
+  <!-- Three.js canvas -->
+  <canvas id="game-canvas" class="absolute inset-0 w-full h-full"></canvas>
+
+  <!-- CRT scanline overlay -->
+  <div class="absolute inset-0 pointer-events-none" style="background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.04) 2px, rgba(0,0,0,0.04) 4px); z-index:1;"></div>
+
+  <!-- ESC -->
+  <button id="game-close" class="absolute top-6 left-6 z-20 text-zinc-600 hover:text-white transition-colors font-mono text-xs uppercase tracking-widest flex items-center gap-2">
+    ← ESC
+  </button>
+
+  <!-- HUD (visible while playing) -->
+  <div id="game-hud" class="absolute inset-0 pointer-events-none z-10 hidden">
+    <!-- Top-center score -->
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 pt-7 text-center">
+      <div class="text-[10px] font-mono text-zinc-600 uppercase tracking-[0.3em] mb-0.5">Lighthouse Score</div>
+      <div id="score-display" class="text-6xl font-black text-white leading-none tabular-nums" style="font-variant-numeric: tabular-nums;">0</div>
+      <div id="phase-label" class="text-[10px] font-mono text-indigo-400 mt-1 uppercase tracking-[0.2em]">Initializing...</div>
+      <div class="mt-2 w-40 h-0.5 bg-zinc-800 rounded-full overflow-hidden mx-auto">
+        <div id="score-bar" class="h-full rounded-full transition-all duration-300" style="width:0%; background: linear-gradient(90deg, #6366f1, #c084fc);"></div>
+      </div>
+    </div>
+    <!-- Lives (top right) -->
+    <div id="lives-display" class="absolute top-7 right-8 flex gap-2"></div>
+    <!-- Speed (top left) -->
+    <div id="speed-display" class="absolute top-7 left-20 font-mono text-[10px] text-zinc-700 uppercase tracking-widest">SPD —</div>
+    <!-- Bottom hint -->
+    <div class="absolute bottom-5 left-1/2 -translate-x-1/2 text-[10px] font-mono text-zinc-700 uppercase tracking-[0.2em] whitespace-nowrap">
+      Mouse · WASD · Arrows &mdash; Dodge bugs · Collect optimizations
+    </div>
+  </div>
+
+  <!-- Start screen -->
+  <div id="game-start" class="absolute inset-0 flex items-center justify-center z-10">
+    <div class="text-center max-w-lg px-8">
+      <div class="text-[10px] font-mono text-indigo-400 uppercase tracking-[0.35em] mb-5">A frontend engineer's game</div>
+      <h2 class="font-black leading-none mb-5" style="font-size: clamp(3rem,10vw,5.5rem);">
+        LIGHTHOUSE<br/>
+        <span style="background:linear-gradient(135deg,#818cf8,#c084fc,#67e8f9);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">RUN</span>
+      </h2>
+      <p class="text-zinc-400 mb-2 text-lg">You are a web page soaring through the digital void.</p>
+      <p class="text-zinc-500 text-sm mb-8">
+        Dodge <span class="text-red-400">bugs</span> &nbsp;·&nbsp;
+        collect <span class="text-emerald-400">optimizations</span> &nbsp;·&nbsp;
+        reach <span class="text-white font-medium">Lighthouse 100</span>
+      </p>
+      <div class="flex items-center justify-center gap-4 mb-6">
+        <button id="game-start-btn" class="px-8 py-4 bg-indigo-500 hover:bg-indigo-400 text-white font-bold rounded-xl transition-all duration-200 hover:-translate-y-1 hover:shadow-xl hover:shadow-indigo-500/30 text-lg">
+          LAUNCH →
+        </button>
+      </div>
+      <div class="font-mono text-[10px] text-zinc-700 uppercase tracking-widest">
+        Press <kbd class="text-zinc-500">G</kbd> to toggle · <kbd class="text-zinc-500">ESC</kbd> to close
+      </div>
+      <div id="best-score-display" class="mt-3 font-mono text-xs text-indigo-500/60"></div>
+    </div>
+  </div>
+
+  <!-- Game Over screen -->
+  <div id="game-dead" class="absolute inset-0 flex items-center justify-center z-10 hidden">
+    <div class="text-center">
+      <div class="text-red-400 text-[10px] font-mono uppercase tracking-[0.35em] mb-4">// Critical Error</div>
+      <h2 class="text-5xl md:text-6xl font-black text-white mb-3">BUG DETECTED</h2>
+      <p class="text-zinc-600 text-sm font-mono mb-1">ObstacleCollisionException at runtime</p>
+      <div class="text-2xl font-black text-white mt-6 mb-2">
+        Final score: <span id="final-score" class="text-indigo-400">0</span>
+        <span class="text-zinc-700"> / 100</span>
+      </div>
+      <div id="new-best-label" class="text-emerald-400 text-sm font-mono mb-6 hidden">↑ New personal best!</div>
+      <div class="flex gap-4 justify-center mt-6">
+        <button id="game-restart-btn" class="px-6 py-3 bg-indigo-500 hover:bg-indigo-400 text-white font-bold rounded-xl transition-all duration-200 hover:-translate-y-1">RETRY →</button>
+        <button id="game-quit-btn"    class="px-6 py-3 border border-zinc-700 hover:border-zinc-500 text-zinc-400 hover:text-white font-bold rounded-xl transition-all duration-200 hover:-translate-y-1">QUIT</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Win screen -->
+  <div id="game-win" class="absolute inset-0 flex items-center justify-center z-10 hidden">
+    <div class="text-center">
+      <div class="text-emerald-400 text-[10px] font-mono uppercase tracking-[0.35em] mb-4">// Build complete · All audits passed</div>
+      <h2 class="font-black leading-none mb-4" style="font-size:clamp(3.5rem,12vw,7rem); background:linear-gradient(135deg,#4ade80,#22d3ee,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">
+        LIGHTHOUSE<br/>100
+      </h2>
+      <p class="text-zinc-300 text-lg mb-1">Perfect Score 🏆</p>
+      <p class="text-zinc-600 text-sm font-mono mb-8">Performance · Accessibility · Best Practices · SEO</p>
+      <div class="flex gap-4 justify-center">
+        <button id="game-replay-btn"    class="px-6 py-3 bg-indigo-500 hover:bg-indigo-400 text-white font-bold rounded-xl transition-all duration-200 hover:-translate-y-1">PLAY AGAIN →</button>
+        <button id="game-close-win-btn" class="px-6 py-3 border border-zinc-700 hover:border-zinc-500 text-zinc-400 hover:text-white font-bold rounded-xl transition-all duration-200 hover:-translate-y-1">CLOSE</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// @ts-nocheck
+import * as THREE from 'three';
+
+// ── Open / close overlay ─────────────────────────────────────────
+const overlay = document.getElementById('game-overlay');
+let gameInited = false;
+
+const openGame = () => {
+  overlay.classList.remove('hidden');
+  if (!gameInited) { initEngine(); gameInited = true; }
+  showScreen('start');
+  updateBestDisplay();
+};
+const closeGame = () => {
+  overlay.classList.add('hidden');
+  if (state.phase === 'playing') state.phase = 'paused';
+};
+
+document.getElementById('enjoy-btn').addEventListener('click', openGame);
+document.getElementById('game-close').addEventListener('click', closeGame);
+document.addEventListener('keydown', e => {
+  if ((e.key === 'g' || e.key === 'G') && !overlay.contains(document.activeElement)) openGame();
+  if (e.key === 'Escape') closeGame();
+});
+
+// ── Screen manager ────────────────────────────────────────────────
+const showScreen = (name) => {
+  ['start','dead','win','hud'].forEach(id => {
+    const el = document.getElementById(`game-${id}`);
+    if (el) el.classList.toggle('hidden', id !== name);
+  });
+};
+
+// ── High score ────────────────────────────────────────────────────
+const getBest = () => parseInt(localStorage.getItem('lh-best') || '0', 10);
+const setBest = (s) => { if (s > getBest()) localStorage.setItem('lh-best', s); };
+const updateBestDisplay = () => {
+  const b = getBest();
+  const el = document.getElementById('best-score-display');
+  if (el) el.textContent = b > 0 ? `Personal best: ${b} / 100` : '';
+};
+
+// ── Three.js engine ───────────────────────────────────────────────
+let renderer, scene, camera, animId;
+
+// Refs to game objects
+let playerMesh, playerMat, playerLight;
+let trailMeshes = [], trailMats = [];
+let rings = [], ringMats = [];
+let obstacles = [], collectibles = [], bursts = [];
+
+// Game state
+const state = {
+  phase: 'idle',   // idle | playing | paused | dead | won
+  score: 0,
+  lives: 3,
+  speed: 0.2,
+  frame: 0,
+  invincible: 0,
+  playerX: 0, playerY: 0,
+  targetX: 0, targetY: 0,
+  shake: 0,
+};
+
+const RING_N  = 30;
+const RING_GAP = 3.2;
+const BX = 2.5, BY = 1.8;   // play-area bounds
+
+const PHASES = [
+  { min:  0, label: 'Initializing...',  ringColor: 0x6366f1, lightColor: 0x6366f1 },
+  { min: 25, label: 'Optimizing...',    ringColor: 0x8b5cf6, lightColor: 0x8b5cf6 },
+  { min: 50, label: 'Accelerating...', ringColor: 0x22d3ee, lightColor: 0x22d3ee },
+  { min: 75, label: 'LIGHTHOUSE RUN!', ringColor: 0xfbbf24, lightColor: 0xfbbf24 },
+];
+const curPhase = () => {
+  for (let i = PHASES.length - 1; i >= 0; i--)
+    if (state.score >= PHASES[i].min) return PHASES[i];
+  return PHASES[0];
+};
+
+// ── Spawn patterns ────────────────────────────────────────────────
+const PATTERNS = [
+  () => { // horizontal wall + gap
+    const gx = (Math.random() - 0.5) * 3.5;
+    return [[-2,0],[-1,0],[0,0],[1,0],[2,0]].filter(([x]) => Math.abs(x - gx) > 0.7);
+  },
+  () => { // vertical wall + gap
+    const gy = (Math.random() - 0.5) * 2.5;
+    return [[0,-1.5],[0,-0.5],[0,0.5],[0,1.5]].filter(([,y]) => Math.abs(y - gy) > 0.6);
+  },
+  () => // ring of 7
+    Array.from({length:7}, (_,i) => [Math.cos(i*Math.PI*2/7)*1.8, Math.sin(i*Math.PI*2/7)*1.3]),
+  () => // X cross
+    [[-2,-1.5],[-1,-0.75],[0,0],[1,0.75],[2,1.5],[2,-1.5],[1,-0.75],[-1,0.75],[-2,1.5]],
+  () => // scatter
+    Array.from({length:5}, () => [(Math.random()-0.5)*4.2, (Math.random()-0.5)*3]),
+];
+
+function spawnWave() {
+  const pat = PATTERNS[Math.floor(Math.random() * PATTERNS.length)]();
+  pat.forEach(([ox,oy]) => spawnObstacle(ox, oy));
+  // collectible in a clear spot (center-ish, offset from obstacles)
+  const cx = (Math.random() - 0.5) * 2;
+  const cy = (Math.random() - 0.5) * 1.5;
+  if (!pat.some(([ox,oy]) => Math.hypot(ox-cx, oy-cy) < 0.7)) spawnCollectible(cx, cy);
+  else spawnCollectible(cx + 0.6, cy);
+}
+
+function spawnObstacle(ox, oy) {
+  const geos = [
+    new THREE.OctahedronGeometry(0.3),
+    new THREE.BoxGeometry(0.38,0.38,0.38),
+    new THREE.TetrahedronGeometry(0.34),
+    new THREE.IcosahedronGeometry(0.28, 0),
+  ];
+  const mat = new THREE.MeshPhongMaterial({ color:0xff2222, emissive:0xaa0000, emissiveIntensity:0.7, transparent:true, opacity:0.93 });
+  const mesh = new THREE.Mesh(geos[Math.floor(Math.random()*geos.length)], mat);
+  mesh.position.set(ox, oy, -58);
+  const gl = new THREE.PointLight(0xff2222, 1.2, 1.6);
+  mesh.add(gl);
+  scene.add(mesh);
+  obstacles.push({ mesh, spd: state.speed * (0.92 + Math.random()*0.16) });
+}
+
+function spawnCollectible(cx, cy) {
+  const mat = new THREE.MeshPhongMaterial({ color:0x4ade80, emissive:0x22c55e, emissiveIntensity:1.4, transparent:true, opacity:0.93 });
+  const mesh = new THREE.Mesh(new THREE.SphereGeometry(0.2, 12, 12), mat);
+  mesh.position.set(cx, cy, -58);
+  const gl = new THREE.PointLight(0x4ade80, 2, 2.2);
+  mesh.add(gl);
+  scene.add(mesh);
+  collectibles.push({ mesh, rot: Math.random() * Math.PI * 2 });
+}
+
+// ── Particle burst ────────────────────────────────────────────────
+function burst(pos, color, n = 20) {
+  for (let i = 0; i < n; i++) {
+    const m = new THREE.Mesh(
+      new THREE.SphereGeometry(0.04, 4, 4),
+      new THREE.MeshBasicMaterial({ color, transparent:true, opacity:1 })
+    );
+    m.position.copy(pos);
+    const v = new THREE.Vector3((Math.random()-0.5)*0.25,(Math.random()-0.5)*0.25,(Math.random()-0.5)*0.1+0.06);
+    bursts.push({ mesh:m, vel:v, life:1 });
+    scene.add(m);
+  }
+}
+
+// ── Win celebration ───────────────────────────────────────────────
+function celebrationBurst() {
+  for (let b = 0; b < 6; b++) {
+    setTimeout(() => {
+      const colors = [0x6366f1, 0x8b5cf6, 0x22d3ee, 0x4ade80, 0xfbbf24, 0xf0abfc];
+      const pos = new THREE.Vector3((Math.random()-0.5)*4,(Math.random()-0.5)*3,0);
+      burst(pos, colors[b % colors.length], 40);
+    }, b * 120);
+  }
+}
+
+// ── HUD updates ───────────────────────────────────────────────────
+function updateHUD() {
+  const p = curPhase();
+  const sd = document.getElementById('score-display');
+  const sb = document.getElementById('score-bar');
+  const pl = document.getElementById('phase-label');
+  const sp = document.getElementById('speed-display');
+  if (sd) sd.textContent = state.score;
+  if (sb) sb.style.width = `${state.score}%`;
+  if (pl) pl.textContent = p.label;
+  if (sp) sp.textContent = `SPD ${(state.speed * 100).toFixed(0)}`;
+}
+function updateLives() {
+  const el = document.getElementById('lives-display');
+  if (!el) return;
+  el.innerHTML = Array.from({length:3}, (_,i) =>
+    `<div style="width:10px;height:10px;border-radius:50%;background:${i < state.lives ? '#6366f1' : '#27272a'};transition:background 0.3s;"></div>`
+  ).join('');
+}
+
+// ── Game control ──────────────────────────────────────────────────
+const keys = {};
+function startGame() {
+  // Cleanup previous objects
+  obstacles.forEach(o => scene.remove(o.mesh));
+  collectibles.forEach(c => scene.remove(c.mesh));
+  bursts.forEach(b => scene.remove(b.mesh));
+  obstacles = []; collectibles = []; bursts = [];
+
+  Object.assign(state, { score:0, lives:3, speed:0.2, frame:0, invincible:0, playerX:0, playerY:0, targetX:0, targetY:0, shake:0, phase:'playing' });
+
+  playerMesh.position.set(0, 0, 0);
+  updateHUD(); updateLives();
+  showScreen('hud');
+  cancelAnimationFrame(animId);
+  gameLoop();
+}
+
+function triggerDeath() {
+  state.phase = 'dead';
+  cancelAnimationFrame(animId);
+  setBest(state.score);
+  const nb = state.score >= getBest();
+  document.getElementById('final-score').textContent = state.score;
+  document.getElementById('new-best-label').classList.toggle('hidden', !nb);
+  showScreen('dead');
+}
+
+function triggerWin() {
+  state.phase = 'won';
+  setBest(100);
+  celebrationBurst();
+  // Keep rendering for celebration
+  const celebLoop = () => {
+    animId = requestAnimationFrame(celebLoop);
+    bursts.forEach((b, i) => {
+      b.mesh.position.add(b.vel);
+      b.life -= 0.03;
+      b.mesh.material.opacity = b.life;
+      b.mesh.scale.setScalar(Math.max(0, b.life));
+      if (b.life <= 0) { scene.remove(b.mesh); bursts.splice(i, 1); }
+    });
+    renderer.render(scene, camera);
+  };
+  setTimeout(() => { showScreen('win'); celebLoop(); }, 300);
+}
+
+// ── Main game loop ────────────────────────────────────────────────
+function gameLoop() {
+  animId = requestAnimationFrame(gameLoop);
+  if (state.phase !== 'playing') return;
+
+  state.frame++;
+  const ph = curPhase();
+  const phColor = new THREE.Color(ph.ringColor);
+
+  // ── Player movement ──────────────────────────────────────────
+  const kspd = 0.09;
+  if (keys['ArrowLeft']  || keys['KeyA']) state.targetX -= kspd;
+  if (keys['ArrowRight'] || keys['KeyD']) state.targetX += kspd;
+  if (keys['ArrowUp']    || keys['KeyW']) state.targetY += kspd;
+  if (keys['ArrowDown']  || keys['KeyS']) state.targetY -= kspd;
+  state.targetX = Math.max(-BX, Math.min(BX, state.targetX));
+  state.targetY = Math.max(-BY, Math.min(BY, state.targetY));
+  state.playerX += (state.targetX - state.playerX) * 0.13;
+  state.playerY += (state.targetY - state.playerY) * 0.13;
+  playerMesh.position.set(state.playerX, state.playerY, 0);
+  playerMat.emissive.set(phColor);
+  playerLight.color.set(phColor);
+
+  // Rotate player
+  playerMesh.rotation.x += 0.04;
+  playerMesh.rotation.z += 0.02;
+
+  // ── Trail ─────────────────────────────────────────────────────
+  const th = { x: state.playerX, y: state.playerY };
+  trailMeshes.forEach((t, i) => {
+    const prev = trailMeshes[i-1] ? trailMeshes[i-1].position : playerMesh.position;
+    t.position.lerp(prev, 0.35);
+    t.position.z = i * 0.28;
+    trailMats[i].color.set(phColor);
+  });
+
+  // ── Score (time-based) ────────────────────────────────────────
+  if (state.frame % 18 === 0) {
+    state.score = Math.min(100, state.score + 1);
+    state.speed += 0.0003;
+    updateHUD();
+    if (state.score >= 100) { triggerWin(); return; }
+  }
+
+  // ── Tunnel rings ──────────────────────────────────────────────
+  rings.forEach((r, i) => {
+    r.position.z += state.speed * 1.2;
+    r.rotation.z += 0.003;
+    if (r.position.z > 7) r.position.z = -(RING_N - 1) * RING_GAP;
+    ringMats[i].color.set(phColor);
+    ringMats[i].opacity = 0.18 + Math.sin(state.frame * 0.04 + i * 0.4) * 0.07;
+  });
+
+  // ── Spawn waves ───────────────────────────────────────────────
+  const interval = Math.max(40, 110 - state.score);
+  if (state.frame % interval === 0) spawnWave();
+
+  // ── Obstacles ─────────────────────────────────────────────────
+  if (state.invincible > 0) state.invincible--;
+
+  for (let i = obstacles.length - 1; i >= 0; i--) {
+    const o = obstacles[i];
+    o.mesh.position.z += o.spd;
+    o.mesh.rotation.x += 0.035;
+    o.mesh.rotation.y += 0.05;
+    if (o.mesh.position.z > 4.5) { scene.remove(o.mesh); obstacles.splice(i,1); continue; }
+
+    if (state.invincible === 0 && o.mesh.position.distanceTo(playerMesh.position) < 0.54) {
+      burst(playerMesh.position.clone(), 0xff3333, 26);
+      state.shake = 0.22;
+      scene.remove(o.mesh); obstacles.splice(i, 1);
+      state.lives--;
+      state.invincible = 90;
+      updateLives();
+      if (state.lives <= 0) { triggerDeath(); return; }
+    }
+  }
+
+  // ── Collectibles ──────────────────────────────────────────────
+  for (let i = collectibles.length - 1; i >= 0; i--) {
+    const c = collectibles[i];
+    c.mesh.position.z += state.speed;
+    c.rot += 0.07;
+    c.mesh.rotation.set(c.rot * 0.5, c.rot, 0);
+    if (c.mesh.position.z > 4.5) { scene.remove(c.mesh); collectibles.splice(i,1); continue; }
+
+    if (c.mesh.position.distanceTo(playerMesh.position) < 0.42) {
+      burst(c.mesh.position.clone(), 0x4ade80, 18);
+      scene.remove(c.mesh); collectibles.splice(i, 1);
+      state.score = Math.min(100, state.score + 10);
+      updateHUD();
+      if (state.score >= 100) { triggerWin(); return; }
+    }
+  }
+
+  // ── Burst particles ───────────────────────────────────────────
+  for (let i = bursts.length - 1; i >= 0; i--) {
+    const b = bursts[i];
+    b.mesh.position.add(b.vel);
+    b.life -= 0.045;
+    b.mesh.material.opacity = b.life;
+    b.mesh.scale.setScalar(Math.max(0, b.life));
+    if (b.life <= 0) { scene.remove(b.mesh); bursts.splice(i,1); }
+  }
+
+  // ── Camera ────────────────────────────────────────────────────
+  if (state.shake > 0.003) {
+    camera.position.x = (Math.random()-0.5) * state.shake;
+    camera.position.y = 0.4 + (Math.random()-0.5) * state.shake;
+    state.shake *= 0.72;
+  } else {
+    camera.position.x += (state.playerX * 0.12 - camera.position.x) * 0.06;
+    camera.position.y += (state.playerY * 0.08 + 0.4 - camera.position.y) * 0.06;
+    state.shake = 0;
+  }
+
+  renderer.render(scene, camera);
+}
+
+// ── Init Three.js engine ──────────────────────────────────────────
+function initEngine() {
+  const canvas = document.getElementById('game-canvas');
+
+  renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.setClearColor(0x000000);
+
+  scene = new THREE.Scene();
+  scene.fog = new THREE.FogExp2(0x000000, 0.06);
+
+  camera = new THREE.PerspectiveCamera(68, 1, 0.1, 120);
+  camera.position.set(0, 0.4, 5.5);
+  camera.lookAt(0, 0, -15);
+
+  const resize = () => {
+    const W = canvas.clientWidth, H = canvas.clientHeight;
+    camera.aspect = W / H;
+    camera.updateProjectionMatrix();
+    renderer.setSize(W, H);
+  };
+  resize();
+  window.addEventListener('resize', resize);
+
+  // Starfield
+  const sPos = new Float32Array(2500 * 3);
+  for (let i = 0; i < 2500; i++) {
+    sPos[i*3]   = (Math.random()-0.5)*120;
+    sPos[i*3+1] = (Math.random()-0.5)*120;
+    sPos[i*3+2] = Math.random()*80 - 80;
+  }
+  const sGeo = new THREE.BufferGeometry();
+  sGeo.setAttribute('position', new THREE.BufferAttribute(sPos, 3));
+  scene.add(new THREE.Points(sGeo, new THREE.PointsMaterial({ color:0x555577, size:0.05, transparent:true, opacity:0.6 })));
+
+  // Tunnel rings
+  for (let i = 0; i < RING_N; i++) {
+    const mat = new THREE.MeshBasicMaterial({ color:0x6366f1, transparent:true, opacity:0.22 });
+    const ring = new THREE.Mesh(new THREE.TorusGeometry(3, 0.022, 8, 70), mat);
+    ring.position.z = -i * RING_GAP;
+    rings.push(ring); ringMats.push(mat);
+    scene.add(ring);
+  }
+
+  // Player (icosahedron instead of sphere — more tech feel)
+  playerMat = new THREE.MeshPhongMaterial({ color:0x6366f1, emissive:0x6366f1, emissiveIntensity:2.2, transparent:true, opacity:0.95 });
+  playerMesh = new THREE.Mesh(new THREE.IcosahedronGeometry(0.28, 1), playerMat);
+  scene.add(playerMesh);
+
+  playerLight = new THREE.PointLight(0x6366f1, 5, 4);
+  playerMesh.add(playerLight);
+
+  // Trail
+  for (let i = 0; i < 10; i++) {
+    const m = new THREE.MeshBasicMaterial({ color:0x6366f1, transparent:true, opacity:(10-i)/16 });
+    const t = new THREE.Mesh(new THREE.IcosahedronGeometry(0.08 * (1-i/13), 0), m);
+    trailMeshes.push(t); trailMats.push(m);
+    scene.add(t);
+  }
+
+  // Ambient + fill lights
+  scene.add(new THREE.AmbientLight(0x111133, 4));
+  const fl = new THREE.PointLight(0x4338ca, 2, 20);
+  fl.position.set(0, 0, -5);
+  scene.add(fl);
+
+  // Keyboard
+  document.addEventListener('keydown', e => { keys[e.code] = true; });
+  document.addEventListener('keyup',   e => { keys[e.code] = false; });
+
+  // Mouse
+  canvas.addEventListener('mousemove', e => {
+    if (state.phase !== 'playing') return;
+    const r = canvas.getBoundingClientRect();
+    state.targetX = ((e.clientX - r.left) / r.width  - 0.5) * BX * 2;
+    state.targetY = -((e.clientY - r.top) / r.height - 0.5) * BY * 2;
+  });
+
+  // Touch support
+  canvas.addEventListener('touchmove', e => {
+    if (state.phase !== 'playing') return;
+    e.preventDefault();
+    const t = e.touches[0];
+    const r = canvas.getBoundingClientRect();
+    state.targetX = ((t.clientX - r.left) / r.width  - 0.5) * BX * 2;
+    state.targetY = -((t.clientY - r.top)  / r.height - 0.5) * BY * 2;
+  }, { passive: false });
+
+  // Button wiring
+  document.getElementById('game-start-btn').addEventListener('click', startGame);
+  document.getElementById('game-restart-btn').addEventListener('click', startGame);
+  document.getElementById('game-quit-btn').addEventListener('click', () => { closeGame(); });
+  document.getElementById('game-replay-btn').addEventListener('click', startGame);
+  document.getElementById('game-close-win-btn').addEventListener('click', closeGame);
+
+  // Idle animation
+  const idle = () => {
+    animId = requestAnimationFrame(idle);
+    const t = Date.now() * 0.001;
+    rings.forEach((r, i) => {
+      r.position.z += 0.06;
+      r.rotation.z = t * 0.3 + i * 0.2;
+      if (r.position.z > 7) r.position.z = -(RING_N - 1) * RING_GAP;
+    });
+    camera.position.x = Math.sin(t * 0.4) * 0.15;
+    camera.position.y = 0.4 + Math.sin(t * 0.3) * 0.1;
+    renderer.render(scene, camera);
+  };
+  idle();
+}
+</script>
