@@ -258,6 +258,6 @@ Built on Astro's static output:
 
 **Osvaldo Martini**
 - Email: [osvaldo.martini.dev@gmail.com](mailto:osvaldo.martini.dev@gmail.com)
-- LinkedIn: [linkedin.com/in/osvaldo-martini-bb830b40b](https://linkedin.com/in/osvaldo-martini-bb830b40b/)
+- LinkedIn: [linkedin.com/in/osvaldo-martini](https://linkedin.com/in/osvaldo-martini/)
 - GitHub: [github.com/omartini-dev](https://github.com/omartini-dev)
 - Location: Berlin, Germany
