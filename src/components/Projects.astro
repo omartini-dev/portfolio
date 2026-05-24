@@ -6,11 +6,12 @@ const projects = [
     tagline: 'Financial Intelligence Platform',
     description:
       'High-performance marketing website for the leading debt capital markets intelligence platform. Built data-driven content pages, editorial CMS workflows with Sanity, and real-time data visualizations for a global fintech audience.',
-    stack: ['Next.js', 'Sanity', 'TypeScript', 'Tailwind CSS', 'Vercel'],
+    stack: ['Next.js', 'Sanity', 'TypeScript', 'Tailwind CSS'],
     color: '#3b82f6',
     initial: '9',
     category: 'Fintech · B2B SaaS',
     metrics: ['LCP < 1.2s', 'SEO 100', '+22% organic traffic'],
+    screenshot: '/projects/9fin.png',
   },
   {
     name: 'EiQ',
@@ -18,23 +19,25 @@ const projects = [
     tagline: 'Energy Intelligence & Analytics',
     description:
       'Marketing website and content hub for an energy data analytics platform. Architected a scalable content model in Sanity supporting multiple editorial teams, with SSG pages delivering sub-second load times.',
-    stack: ['Next.js', 'Sanity', 'React', 'TypeScript', 'Framer Motion'],
+    stack: ['Next.js', 'Sanity', 'TypeScript', 'Tailwind CSS'],
     color: '#22c55e',
     initial: 'E',
     category: 'Energy · Enterprise',
     metrics: ['Core Web Vitals pass', 'SSG', '+18% CTR'],
+    screenshot: '/projects/eiq.png',
   },
   {
-    name: 'Materialized',
-    url: 'materialized.com',
-    tagline: 'Modern Data Management Platform',
+    name: 'Materialize',
+    url: 'materialize.com',
+    tagline: 'Streaming SQL & Live Data Platform',
     description:
-      'Full redesign and rebuild of a data engineering SaaS marketing site. Implemented a component-driven design system, authored developer-facing documentation pages, and shipped A/B tested landing pages.',
-    stack: ['Next.js', 'Contentful', 'TypeScript', 'Tailwind CSS', 'Storybook'],
+      'Full redesign and rebuild of the marketing site for a real-time streaming SQL platform. Implemented a component-driven design system in Svelte, authored developer-facing documentation pages, and shipped A/B tested landing pages.',
+    stack: ['Svelte', 'Sanity', 'TypeScript', 'Tailwind CSS'],
     color: '#a855f7',
     initial: 'M',
     category: 'Data · B2B SaaS',
     metrics: ['+30% conversion', 'Design system', '0 regressions'],
+    screenshot: '/projects/materialized.png',
   },
   {
     name: 'Shep',
@@ -47,18 +50,20 @@ const projects = [
     initial: 'S',
     category: 'AI · SaaS',
     metrics: ['Performance 100', 'LCP 0.4s', '+25% leads'],
+    screenshot: '/projects/shep.png',
   },
   {
     name: 'Modus',
-    url: 'modus.com',
+    url: 'moduscreate.com',
     tagline: 'Enterprise Technology Consulting',
     description:
       'Component library and marketing platform rebuild for a global technology consultancy. Delivered a scalable design system with 40+ components, and migrated the legacy WordPress site to a headless CMS architecture.',
-    stack: ['Next.js', 'Storyblok', 'React', 'TypeScript', 'Tailwind CSS'],
+    stack: ['Next.js', 'Sanity', 'TypeScript', 'Tailwind CSS'],
     color: '#06b6d4',
     initial: 'M',
     category: 'Consulting · Enterprise',
     metrics: ['40+ components', 'Headless CMS', '−40% build time'],
+    screenshot: '/projects/modus.png',
   },
   {
     name: 'Webstacks',
@@ -66,11 +71,12 @@ const projects = [
     tagline: 'B2B Marketing Website Agency',
     description:
       "Agency's own marketing website and component platform, serving as a blueprint for all client deliverables. Performance-first architecture used as a reference implementation for Lighthouse 100 across all four categories.",
-    stack: ['Astro', 'Sanity', 'TypeScript', 'Tailwind CSS', 'Cloudflare'],
+    stack: ['Next.js', 'Sanity', 'TypeScript', 'Tailwind CSS'],
     color: '#e879f9',
     initial: 'W',
     category: 'Agency · Studio',
     metrics: ['Lighthouse 100', 'SSG', 'Reference build'],
+    screenshot: '/projects/webstacks.png',
   },
 ];
 ---
@@ -94,13 +100,39 @@ const projects = [
       {projects.map((p, i) => (
         <div class={`reveal reveal-delay-${(i % 3) + 1} tilt-card`} data-tilt="10">
         <article
-          class="tilt-inner card overflow-hidden group flex flex-col h-full relative"
+          class="tilt-inner card overflow-hidden group flex flex-col h-full relative cursor-pointer"
         >
+          <!-- Full-card link overlay -->
+          <a
+            href={`https://${p.url}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="absolute inset-0 z-20"
+            aria-label={`Visit ${p.name}`}
+          ></a>
+
           <!-- Spotlight -->
           <div class="spotlight" style={`--spotlight-color: ${p.color};`}></div>
 
           <!-- Top accent bar -->
-          <div class="h-1 w-full" style={`background: linear-gradient(90deg, ${p.color}, ${p.color}55);`}></div>
+          <div class="h-0.5 w-full" style={`background: linear-gradient(90deg, ${p.color}, ${p.color}55);`}></div>
+
+          <!-- Screenshot preview -->
+          <div class="relative overflow-hidden" style="height: 160px;">
+            <img
+              src={p.screenshot}
+              alt={`${p.name} website`}
+              class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+              loading="lazy"
+            />
+            <div class="absolute inset-0" style={`background: linear-gradient(to bottom, transparent 40%, #111113 100%);`}></div>
+            <div
+              class="absolute top-2 right-2 text-[10px] font-mono px-2 py-0.5 rounded-full"
+              style={`background: ${p.color}20; color: ${p.color}; border: 1px solid ${p.color}40;`}
+            >
+              {p.url}
+            </div>
+          </div>
 
           <div class="p-6 flex flex-col flex-1 relative z-10">
             <!-- Header -->
@@ -117,17 +149,11 @@ const projects = [
                   <div class="text-zinc-600 text-xs">{p.category}</div>
                 </div>
               </div>
-              <a
-                href={`https://${p.url}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="text-zinc-600 hover:text-white transition-colors flex-shrink-0 mt-1"
-                aria-label={`Visit ${p.name}`}
-              >
+              <span class="text-zinc-600 group-hover:text-white transition-colors flex-shrink-0 mt-1" aria-hidden="true">
                 <svg width="14" height="14" viewBox="0 0 12 12" fill="none">
                   <path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-              </a>
+              </span>
             </div>
 
             <!-- Content -->
