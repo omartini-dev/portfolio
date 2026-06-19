@@ -1,0 +1,225 @@
+---
+---
+
+<section id="profile" class="py-20 px-6 relative overflow-hidden">
+  <!-- Canvas animation -->
+  <canvas id="profile-canvas" class="absolute inset-0 w-full h-full pointer-events-none"></canvas>
+
+  <div class="max-w-6xl mx-auto relative">
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-20 items-center">
+
+      <!-- Photo -->
+      <div class="lg:col-span-2 reveal flex justify-center lg:justify-start">
+        <div class="photo-frame relative" style="width:320px; height:400px;">
+          <!-- Animated gradient ring -->
+          <div class="absolute -inset-[3px] rounded-2xl z-0" style="background: linear-gradient(135deg,#6366f1,#8b5cf6,#22d3ee,#6366f1); background-size:300% 300%; animation: gradientShift 4s ease infinite;"></div>
+
+          <!-- Photo container -->
+          <div class="relative rounded-2xl overflow-hidden w-full h-full z-10 bg-zinc-900" id="photo-wrap">
+            <img
+              id="profile-photo"
+              src="/photo.jpg"
+              alt="Osvaldo Martini"
+              class="w-full h-full object-cover object-top photo-img"
+              loading="eager"
+            />
+            <!-- Fallback initials (hidden when photo loads) -->
+            <div id="photo-fallback" class="absolute inset-0 hidden flex-col items-center justify-center gap-3">
+              <div class="w-24 h-24 rounded-full bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center">
+                <span class="text-4xl font-black gradient-text">OM</span>
+              </div>
+              <span class="text-zinc-600 text-xs font-mono">add public/photo.jpg</span>
+            </div>
+            <!-- Inner vignette -->
+            <div class="absolute inset-0 pointer-events-none rounded-2xl" style="box-shadow: inset 0 0 50px rgba(9,9,11,0.5);"></div>
+          </div>
+
+          <!-- Floating badge -->
+          <div class="absolute -bottom-5 -right-5 z-20 bg-[#111113] border border-zinc-800 rounded-xl px-4 py-2.5 shadow-2xl">
+            <div class="flex items-center gap-2">
+              <span class="relative flex h-2 w-2">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </span>
+              <span class="text-xs font-medium text-zinc-300">Available for projects</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bio -->
+      <div class="lg:col-span-3 reveal reveal-delay-2">
+        <div class="section-label mb-4">The person behind the code</div>
+
+        <h2 class="text-4xl md:text-5xl font-black text-white leading-tight mb-6">
+          Osvaldo<br/>
+          <span class="gradient-text">Martini</span>
+        </h2>
+
+        <p class="text-zinc-400 text-lg leading-relaxed mb-8 max-w-lg">
+          Senior Frontend Engineer based in Berlin. I've spent 11 years helping SaaS companies
+          turn slow, bloated websites into fast, conversion-driven platforms — and I care deeply
+          about the craft of every pixel and every millisecond.
+        </p>
+
+        <div class="grid grid-cols-3 gap-4 mb-8">
+          <div class="card p-4 text-center">
+            <div class="text-2xl font-black gradient-text mb-1">11+</div>
+            <div class="text-zinc-500 text-xs">Years</div>
+          </div>
+          <div class="card p-4 text-center">
+            <div class="text-2xl font-black gradient-text mb-1">30+</div>
+            <div class="text-zinc-500 text-xs">Projects</div>
+          </div>
+          <div class="card p-4 text-center">
+            <div class="text-2xl font-black gradient-text mb-1">100</div>
+            <div class="text-zinc-500 text-xs">Lighthouse</div>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-5 text-sm text-zinc-500">
+          <span class="flex items-center gap-1.5">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+              <circle cx="12" cy="9" r="2.5"/>
+            </svg>
+            Berlin, Germany
+          </span>
+          <a href="https://linkedin.com/in/osvaldo-martini/" target="_blank" rel="noopener" class="flex items-center gap-1.5 hover:text-white transition-colors">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+            LinkedIn
+          </a>
+          <a href="https://github.com/omartini-dev" target="_blank" rel="noopener" class="flex items-center gap-1.5 hover:text-white transition-colors">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.49.5.09.68-.22.68-.48v-1.69c-2.78.6-3.37-1.34-3.37-1.34-.45-1.15-1.11-1.46-1.11-1.46-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0112 6.8c.85 0 1.71.12 2.51.34 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10.01 10.01 0 0022 12c0-5.52-4.48-10-10-10z"/></svg>
+            GitHub
+          </a>
+          <a href="mailto:osvaldo.martini.dev@gmail.com" class="flex items-center gap-1.5 hover:text-white transition-colors">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
+            Email
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+  // Photo fallback
+  const img = document.getElementById('profile-photo') as HTMLImageElement | null;
+  const fallback = document.getElementById('photo-fallback');
+  if (img && fallback) {
+    const showFallback = () => {
+      img.style.display = 'none';
+      fallback.classList.remove('hidden');
+      fallback.classList.add('flex');
+    };
+    if (img.complete && img.naturalWidth === 0) showFallback();
+    else img.addEventListener('error', showFallback);
+  }
+
+  // ── Canvas: orbiting particles around photo ─────────────────────────
+  const canvas = document.getElementById('profile-canvas') as HTMLCanvasElement | null;
+  if (!canvas) throw new Error('no canvas');
+  const ctx = canvas.getContext('2d')!;
+
+  const resize = () => {
+    canvas.width  = canvas.clientWidth  * devicePixelRatio;
+    canvas.height = canvas.clientHeight * devicePixelRatio;
+    ctx.scale(devicePixelRatio, devicePixelRatio);
+  };
+  resize();
+  window.addEventListener('resize', resize);
+
+  const W = () => canvas.clientWidth;
+  const H = () => canvas.clientHeight;
+
+  // Photo frame center (left-side column, roughly)
+  const cx = () => Math.min(W() * 0.22, 360);
+  const cy = () => H() * 0.5;
+
+  type Particle = { angle: number; radius: number; speed: number; size: number; color: string; trail: {x:number;y:number}[] };
+
+  const COLORS = ['#6366f1','#8b5cf6','#22d3ee','#a855f7','#67e8f9'];
+  const orbits: Particle[] = Array.from({ length: 18 }, (_, i) => ({
+    angle:  (i / 18) * Math.PI * 2,
+    radius: 220 + (i % 3) * 55,
+    speed:  (0.004 + (i % 4) * 0.0015) * (i % 2 === 0 ? 1 : -1),
+    size:   1.5 + (i % 3) * 1.2,
+    color:  COLORS[i % COLORS.length],
+    trail:  [],
+  }));
+
+  // Background ambient particles
+  const ambient = Array.from({ length: 55 }, () => ({
+    x: Math.random() * 800,
+    y: Math.random() * 600,
+    vx: (Math.random() - 0.5) * 0.3,
+    vy: (Math.random() - 0.5) * 0.3,
+    r: 0.8 + Math.random() * 1.5,
+    alpha: 0.08 + Math.random() * 0.18,
+    color: COLORS[Math.floor(Math.random() * COLORS.length)],
+  }));
+
+  const TRAIL_LEN = 12;
+
+  const draw = () => {
+    requestAnimationFrame(draw);
+    ctx.clearRect(0, 0, W(), H());
+
+    const ox = cx(), oy = cy();
+
+    // Ambient particles
+    ambient.forEach(p => {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0) p.x = W(); if (p.x > W()) p.x = 0;
+      if (p.y < 0) p.y = H(); if (p.y > H()) p.y = 0;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = p.color;
+      ctx.globalAlpha = p.alpha;
+      ctx.fill();
+    });
+    ctx.globalAlpha = 1;
+
+    // Orbiting particles with trails
+    orbits.forEach(p => {
+      p.angle += p.speed;
+      const x = ox + Math.cos(p.angle) * p.radius * 0.6;
+      const y = oy + Math.sin(p.angle) * p.radius * 0.28;
+
+      p.trail.push({ x, y });
+      if (p.trail.length > TRAIL_LEN) p.trail.shift();
+
+      // Draw trail
+      p.trail.forEach((pt, ti) => {
+        const a = (ti / TRAIL_LEN) * 0.45;
+        const r = p.size * (ti / TRAIL_LEN);
+        ctx.beginPath();
+        ctx.arc(pt.x, pt.y, r, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = a;
+        ctx.fill();
+      });
+      ctx.globalAlpha = 1;
+
+      // Draw head
+      ctx.beginPath();
+      ctx.arc(x, y, p.size, 0, Math.PI * 2);
+      ctx.fillStyle = p.color;
+      ctx.globalAlpha = 0.9;
+      ctx.fill();
+      ctx.globalAlpha = 1;
+    });
+  };
+  draw();
+</script>
+
+<style>
+  .photo-img {
+    transition: transform 7s ease-in-out;
+  }
+  .photo-frame:hover .photo-img {
+    transform: scale(1.05);
+  }
+</style>

@@ -55,7 +55,7 @@ const jobs = [
 ---
 
 <!-- Section is 300vh so user scrolls through 3 scenes -->
-<section id="experience" class="relative bg-black" style="height: 300vh;">
+<section id="experience" class="relative bg-black exp-section" style="height: 300vh;">
 
   <!-- Sticky viewport: the 3D stage stays in view while user scrolls -->
   <div class="sticky top-0 h-screen overflow-hidden">
@@ -64,8 +64,8 @@ const jobs = [
     <canvas id="three-exp" class="absolute inset-0 w-full h-full" style="z-index:0;"></canvas>
 
     <!-- Cinematic letterbox bars -->
-    <div class="absolute top-0 left-0 right-0 z-20 pointer-events-none" style="height:8vh; background: linear-gradient(to bottom, #000 60%, transparent);"></div>
-    <div class="absolute bottom-0 left-0 right-0 z-20 pointer-events-none" style="height:8vh; background: linear-gradient(to top, #000 60%, transparent);"></div>
+    <div class="absolute top-0 left-0 right-0 z-20 pointer-events-none exp-letterbox-t" style="height:8vh;"></div>
+    <div class="absolute bottom-0 left-0 right-0 z-20 pointer-events-none exp-letterbox-b" style="height:8vh;"></div>
 
     <!-- Top-left label -->
     <div class="absolute z-30 flex items-center gap-4" style="top: 3vh; left: 2rem;">
@@ -175,6 +175,8 @@ const jobs = [
     from { transform: translateX(0); }
     to   { transform: translateX(-50%); }
   }
+  .exp-letterbox-t { background: linear-gradient(to bottom, var(--bg) 60%, transparent); }
+  .exp-letterbox-b { background: linear-gradient(to top,   var(--bg) 60%, transparent); }
 </style>
 
 <script>
@@ -364,6 +366,17 @@ const jobs = [
   });
 
   activateScene(0);
+
+  // ── Theme-aware renderer color ────────────────────
+  const applyExpTheme = (isLight: boolean) => {
+    const bg = isLight ? 0xf5f5fa : 0x000000;
+    renderer.setClearColor(bg);
+    (scene.fog as THREE.FogExp2).color.setHex(bg);
+  };
+  applyExpTheme(document.documentElement.dataset.theme === 'light');
+  window.addEventListener('themechange', (e: Event) => {
+    applyExpTheme((e as CustomEvent<{theme:string}>).detail.theme === 'light');
+  });
 
   // ── Animate ──────────────────────────────────────
   let t = 0;

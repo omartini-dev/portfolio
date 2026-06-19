@@ -2,11 +2,8 @@
 ---
 
 <section id="contact" class="py-24 px-6 bg-[#0c0c0e] relative overflow-hidden">
-  <div class="absolute inset-0 pointer-events-none">
-    <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px]"
-      style="background: radial-gradient(ellipse, rgba(99,102,241,0.1) 0%, transparent 70%);">
-    </div>
-  </div>
+  <!-- Pulsing rings canvas -->
+  <canvas id="contact-canvas" class="absolute inset-0 w-full h-full pointer-events-none"></canvas>
 
   <div class="max-w-3xl mx-auto text-center relative">
     <div class="reveal">
@@ -22,7 +19,7 @@
 
       <a
         href="mailto:osvaldo.martini.dev@gmail.com"
-        class="inline-flex items-center gap-3 px-8 py-4 bg-indigo-500 hover:bg-indigo-400 text-white text-lg font-bold rounded-xl transition-all duration-200 hover:-translate-y-1 hover:shadow-2xl hover:shadow-indigo-500/30 mb-12"
+        class="contact-cta inline-flex items-center gap-3 px-8 py-4 bg-indigo-500 hover:bg-indigo-400 text-white text-lg font-bold rounded-xl transition-all duration-200 hover:-translate-y-1 hover:shadow-2xl hover:shadow-indigo-500/30 mb-12"
       >
         osvaldo.martini.dev@gmail.com
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
@@ -88,3 +85,56 @@
     </div>
   </div>
 </section>
+
+<script>
+  const canvas = document.getElementById('contact-canvas') as HTMLCanvasElement | null;
+  if (!canvas) throw new Error('no canvas');
+  const ctx = canvas.getContext('2d')!;
+
+  const resize = () => {
+    canvas.width  = canvas.clientWidth  * devicePixelRatio;
+    canvas.height = canvas.clientHeight * devicePixelRatio;
+    ctx.scale(devicePixelRatio, devicePixelRatio);
+  };
+  resize();
+  window.addEventListener('resize', resize);
+
+  const W = () => canvas.clientWidth;
+  const H = () => canvas.clientHeight;
+
+  // Rings that expand outward from center
+  const RING_COLORS = ['99,102,241', '139,92,246', '34,211,238'];
+  const rings: { r: number; alpha: number; speed: number; colorIdx: number }[] = [];
+  const RING_INTERVAL = 1200;
+  let colorIdx = 0;
+
+  const spawnRing = () => {
+    rings.push({ r: 30, alpha: 0.5, speed: 1.1, colorIdx: colorIdx % RING_COLORS.length });
+    colorIdx++;
+  };
+  spawnRing(); spawnRing();
+  setInterval(spawnRing, RING_INTERVAL);
+
+  const draw = () => {
+    requestAnimationFrame(draw);
+    ctx.clearRect(0, 0, W(), H());
+
+    const cx = W() / 2;
+    const cy = H() * 0.38;
+
+    for (let i = rings.length - 1; i >= 0; i--) {
+      const ring = rings[i];
+      ring.r    += ring.speed;
+      ring.alpha -= 0.003;
+
+      if (ring.alpha <= 0) { rings.splice(i, 1); continue; }
+
+      ctx.beginPath();
+      ctx.arc(cx, cy, ring.r, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(${RING_COLORS[ring.colorIdx]},${ring.alpha})`;
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    }
+  };
+  draw();
+</script>

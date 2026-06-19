@@ -184,3 +184,155 @@
 .t-highlight{ color: #c084fc; }
 .t-dim      { color: #4a5568; }
 .t-score    { color: #22d3ee; }
+
+/* ═══════════════════════════════════════════════════
+   THEME SYSTEM
+═══════════════════════════════════════════════════ */
+:root {
+  --bg:      #09090b;
+  --bg-card: #111113;
+  --bg-alt:  #0c0c0e;
+}
+html[data-theme="light"] {
+  --bg:      #f5f5fa;
+  --bg-card: #ffffff;
+  --bg-alt:  #eaeaf3;
+}
+
+body   { transition: background-color 0.3s ease, color 0.25s ease; }
+header { transition: background-color 0.3s ease, border-color 0.3s ease; }
+
+/* ── Light mode structural overrides ─────────────────── */
+html[data-theme="light"] body {
+  background-color: var(--bg);
+  color: #18181b;
+}
+html[data-theme="light"] header {
+  background-color: rgba(245,245,250,0.85) !important;
+  border-color: rgba(0,0,0,0.07) !important;
+}
+html[data-theme="light"] #mobile-menu {
+  background-color: var(--bg) !important;
+  border-color: rgb(228,228,231) !important;
+}
+html[data-theme="light"] .card {
+  background-color: var(--bg-card) !important;
+  border-color: rgb(228,228,231) !important;
+}
+
+/* Hardcoded bg class overrides */
+html[data-theme="light"] .bg-\[\#09090b\]     { background-color: var(--bg)              !important; }
+html[data-theme="light"] .bg-\[\#09090b\]\/80 { background-color: rgba(245,245,250,0.85) !important; }
+html[data-theme="light"] .bg-\[\#111113\]     { background-color: var(--bg-card)         !important; }
+html[data-theme="light"] .bg-\[\#0c0c0e\]     { background-color: var(--bg-alt)          !important; }
+
+/* ── Light mode text overrides ───────────────────────── */
+html[data-theme="light"] .text-white              { color: #18181b !important; }
+html[data-theme="light"] .text-zinc-100           { color: #27272a !important; }
+html[data-theme="light"] .text-zinc-200           { color: #3f3f46 !important; }
+html[data-theme="light"] .text-zinc-300           { color: #3f3f46 !important; }
+html[data-theme="light"] .text-zinc-400           { color: #52525b !important; }
+html[data-theme="light"] .text-zinc-500           { color: #71717a !important; }
+html[data-theme="light"] .text-zinc-600           { color: #52525b !important; }
+html[data-theme="light"] .hover\:text-white:hover { color: #18181b !important; }
+
+/* Restore white text on colored action elements — after overrides so higher doc-order wins */
+html[data-theme="light"] .bg-indigo-500,
+html[data-theme="light"] .bg-indigo-400,
+html[data-theme="light"] .btn-primary,
+html[data-theme="light"] .contact-cta { color: #ffffff !important; }
+
+/* ── Light mode border overrides ─────────────────────── */
+html[data-theme="light"] .border-white\/5     { border-color: rgba(0,0,0,0.07)         !important; }
+html[data-theme="light"] .border-zinc-800     { border-color: rgb(228,228,231)          !important; }
+html[data-theme="light"] .border-zinc-800\/60 { border-color: rgba(212,212,216,0.8)    !important; }
+html[data-theme="light"] .border-zinc-700     { border-color: rgb(212,212,216)          !important; }
+html[data-theme="light"] .border-zinc-700\/50 { border-color: rgba(212,212,216,0.6)    !important; }
+html[data-theme="light"] .border-zinc-600\/30 { border-color: rgba(212,212,216,0.5)    !important; }
+
+/* ── Light mode bg utility overrides ─────────────────── */
+html[data-theme="light"] .bg-zinc-800\/80  { background-color: rgba(228,228,231,0.8)  !important; }
+html[data-theme="light"] .bg-zinc-900      { background-color: #ededf5               !important; }
+html[data-theme="light"] .bg-zinc-900\/70  { background-color: rgba(237,237,245,0.8)  !important; }
+html[data-theme="light"] .bg-zinc-700\/50  { background-color: rgba(228,228,231,0.6)  !important; }
+html[data-theme="light"] #photo-wrap       { background-color: #e8e8f0               !important; }
+
+/* ── Component overrides ─────────────────────────────── */
+html[data-theme="light"] .tech-badge {
+  background: rgba(228,228,231,0.8) !important;
+  border-color: rgba(212,212,216,0.6) !important;
+  color: #3f3f46 !important;
+}
+html[data-theme="light"] .tech-badge-glow {
+  background: rgba(99,102,241,0.08) !important;
+  color: #4338ca !important;
+  border-color: rgba(99,102,241,0.25) !important;
+}
+html[data-theme="light"] .tech-badge-glow:hover {
+  background: rgba(99,102,241,0.15) !important;
+  color: #3730a3 !important;
+}
+html[data-theme="light"] .dot-grid {
+  background-image: radial-gradient(circle, rgba(0,0,0,0.05) 1px, transparent 1px) !important;
+}
+
+/* bg-black (used by Experience section) */
+html[data-theme="light"] .bg-black { background-color: var(--bg) !important; }
+
+/* ── Terminal light theme ─────────────────────────────── */
+html[data-theme="light"] .terminal {
+  background: #f5f5fa !important;
+  border-color: #e4e4ed !important;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.05) !important;
+}
+html[data-theme="light"] .terminal-header {
+  background: #ebebf4 !important;
+  border-color: #e4e4ed !important;
+}
+html[data-theme="light"] .t-cmd  { color: #3730a3 !important; }
+html[data-theme="light"] .t-info { color: #4b5563 !important; }
+html[data-theme="light"] .t-dim  { color: #94a3b8 !important; }
+
+/* Keep lightbox dark regardless of theme */
+html[data-theme="light"] #lightbox .bg-zinc-800\/80  { background: rgba(39,39,42,0.85) !important; }
+html[data-theme="light"] #lightbox .border-zinc-700  { border-color: rgb(63,63,70)      !important; }
+html[data-theme="light"] #lightbox .text-zinc-400    { color: #a1a1aa                   !important; }
+html[data-theme="light"] #lightbox .text-zinc-500    { color: #71717a                   !important; }
+html[data-theme="light"] #lightbox .hover\:text-white:hover { color: white              !important; }
+
+/* ── Scrollbar ───────────────────────────────────────── */
+html[data-theme="light"] ::-webkit-scrollbar-track { background: var(--bg); }
+html[data-theme="light"] ::-webkit-scrollbar-thumb { background: #d4d4d8; }
+
+/* ── Theme toggle button ─────────────────────────────── */
+.theme-toggle-btn {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  border: 1px solid rgba(63,63,70,0.6);
+  background: rgba(39,39,42,0.5);
+  color: #a1a1aa;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  flex-shrink: 0;
+}
+.theme-toggle-btn:hover {
+  background: rgba(63,63,70,0.7);
+  color: #ffffff;
+  border-color: rgba(113,113,122,0.8);
+}
+html[data-theme="light"] .theme-toggle-btn {
+  background: rgba(241,241,246,0.8) !important;
+  border-color: rgba(161,161,170,0.5) !important;
+  color: #52525b !important;
+}
+html[data-theme="light"] .theme-toggle-btn:hover {
+  background: rgba(228,228,231,0.9) !important;
+  color: #18181b !important;
+}
+
+/* Icon visibility per theme */
+.icon-sun  { display: block; }
+.icon-moon { display: none;  }
+html[data-theme="light"] .icon-sun  { display: none;  }
+html[data-theme="light"] .icon-moon { display: block; }

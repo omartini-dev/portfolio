@@ -43,8 +43,11 @@ const categories = [
 ];
 ---
 
-<section id="skills" class="py-24 px-6 bg-[#0c0c0e]">
-  <div class="max-w-6xl mx-auto">
+<section id="skills" class="py-24 px-6 bg-[#0c0c0e] relative overflow-hidden">
+  <!-- Animated wave grid background -->
+  <canvas id="skills-canvas" class="absolute inset-0 w-full h-full pointer-events-none" style="opacity:0.85;"></canvas>
+
+  <div class="max-w-6xl mx-auto relative">
     <div class="reveal mb-16">
       <div class="section-label">Technical Skills</div>
       <h2 class="text-4xl md:text-5xl font-bold text-white leading-tight">
@@ -55,7 +58,10 @@ const categories = [
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       {categories.map((cat, i) => (
-        <div class={`reveal reveal-delay-${(i % 4) + 1} card p-6`}>
+        <div
+          class={`reveal reveal-delay-${(i % 4) + 1} card p-6 skills-card`}
+          style={`--cat-color: ${cat.color};`}
+        >
           <div class="flex items-center gap-2.5 mb-4">
             <div class="w-2 h-2 rounded-full" style={`background: ${cat.color};`}></div>
             <div class="text-xs font-semibold uppercase tracking-[0.15em]" style={`color: ${cat.color};`}>
@@ -63,8 +69,13 @@ const categories = [
             </div>
           </div>
           <div class="flex flex-wrap gap-2">
-            {cat.skills.map((s) => (
-              <span class="tech-badge">{s}</span>
+            {cat.skills.map((s, j) => (
+              <span
+                class="skill-badge tech-badge"
+                style={`--delay: ${j * 60}ms;`}
+              >
+                {s}
+              </span>
             ))}
           </div>
         </div>
@@ -72,3 +83,76 @@ const categories = [
     </div>
   </div>
 </section>
+
+<style>
+  .skill-badge {
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.35s ease, transform 0.35s ease, background 0.2s, border-color 0.2s, color 0.2s;
+    transition-delay: var(--delay, 0ms);
+  }
+
+  .skills-card.visible .skill-badge {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .skills-card:hover .skill-badge {
+    border-color: color-mix(in srgb, var(--cat-color) 40%, transparent);
+    color: color-mix(in srgb, var(--cat-color) 80%, #e2e8f0);
+  }
+</style>
+
+<script>
+  // Observe skills cards for badge wave animation
+  const obs = new IntersectionObserver(
+    entries => entries.forEach(e => e.isIntersecting && e.target.classList.add('visible')),
+    { threshold: 0.15 }
+  );
+  document.querySelectorAll('.skills-card').forEach(c => obs.observe(c));
+
+  // Wave dot grid canvas
+  const canvas = document.getElementById('skills-canvas') as HTMLCanvasElement | null;
+  if (!canvas) throw new Error('no canvas');
+  const ctx = canvas.getContext('2d')!;
+
+  const resize = () => {
+    canvas.width  = canvas.clientWidth  * devicePixelRatio;
+    canvas.height = canvas.clientHeight * devicePixelRatio;
+    ctx.scale(devicePixelRatio, devicePixelRatio);
+  };
+  resize();
+  window.addEventListener('resize', resize);
+
+  const W = () => canvas.clientWidth;
+  const H = () => canvas.clientHeight;
+  const SPACING = 30;
+  let t = 0;
+
+  const draw = () => {
+    requestAnimationFrame(draw);
+    t += 0.022;
+    ctx.clearRect(0, 0, W(), H());
+
+    const cols = Math.ceil(W() / SPACING) + 1;
+    const rows = Math.ceil(H() / SPACING) + 1;
+
+    for (let c = 0; c < cols; c++) {
+      for (let r = 0; r < rows; r++) {
+        const x = c * SPACING;
+        const y = r * SPACING;
+        const wave = Math.sin(c * 0.45 + r * 0.35 + t) * 0.5 + 0.5;
+        const alpha = 0.05 + wave * 0.28;
+        const radius = 0.8 + wave * 2.2;
+
+        ctx.beginPath();
+        ctx.arc(x, y, radius, 0, Math.PI * 2);
+        // shift color slightly based on wave
+        const hue = 240 + wave * 40;
+        ctx.fillStyle = `hsla(${hue},80%,70%,${alpha})`;
+        ctx.fill();
+      }
+    }
+  };
+  draw();
+</script>

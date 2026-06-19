@@ -4,7 +4,7 @@ const services = [
     icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>`,
     title: 'Marketing Website Development',
     description:
-      'Full-stack Astro or Next.js sites with headless CMS integration. Designed for speed, SEO, and editor happiness. Delivered from design to deployment.',
+      'Full-stack sites with headless CMS integration. Designed for speed, SEO, and editor happiness. Delivered from design to deployment — Astro, Next.js, or Svelte depending on what fits.',
   },
   {
     icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 17.5h7M17.5 14v7"/></svg>`,
@@ -26,22 +26,37 @@ const services = [
   },
 ];
 
-const stack = [
-  { name: 'Astro', description: 'Zero-JS by default · Ships 94% less JS than Next.js', color: '#FF5D01' },
-  { name: 'Sanity', description: 'Structured content · Real-time collaboration · GROQ queries', color: '#F03E2F' },
-  { name: 'TypeScript', description: 'Strict types · Zero runtime surprises · Better DX', color: '#3178C6' },
-  { name: 'Tailwind CSS', description: 'Utility-first · Zero unused CSS · Design token ready', color: '#06B6D4' },
-  { name: 'Vercel', description: 'Edge network · Preview deploys · Instant rollbacks', color: '#fff' },
+const outcomes = [
+  {
+    stat: '< 0.4s',
+    label: 'Sub-second pages',
+    detail: 'LCP under 0.4s, 11KB bundles, Lighthouse 100 — measurable speed on every build.',
+    color: '#22c55e',
+  },
+  {
+    stat: '100%',
+    label: 'Editors love it',
+    detail: 'Structured headless CMS, live preview, real-time collaboration. No engineering bottleneck for content.',
+    color: '#6366f1',
+  },
+  {
+    stat: 'SSG',
+    label: 'SEO by default',
+    detail: 'Static output, structured data, Core Web Vitals green. Google ranks what loads fast.',
+    color: '#f59e0b',
+  },
+  {
+    stat: '5+',
+    label: 'Stacks supported',
+    detail: 'Astro, Next.js, Svelte, React, Vue — matched to your team, your product, your constraints.',
+    color: '#06b6d4',
+  },
 ];
 ---
 
 <section id="studio" class="py-24 px-6 relative overflow-hidden">
-  <!-- Accent background -->
-  <div class="absolute inset-0 pointer-events-none">
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full"
-      style="background: radial-gradient(ellipse, rgba(99,102,241,0.07) 0%, transparent 70%);">
-    </div>
-  </div>
+  <!-- Animated canvas background -->
+  <canvas id="studio-canvas" class="absolute inset-0 w-full h-full pointer-events-none" style="opacity: 0.8;"></canvas>
 
   <div class="max-w-6xl mx-auto relative">
     <!-- Header -->
@@ -52,65 +67,25 @@ const stack = [
         <span class="gradient-text">the modern web.</span>
       </h2>
       <p class="text-zinc-400 text-xl max-w-2xl mx-auto leading-relaxed">
-        I spent 11 years building with React and Next.js. Great tools —
-        but I kept hitting the same wall: too much JavaScript, slow editors, and
-        Lighthouse scores that needed constant firefighting.
+        30+ marketing websites shipped across fintech, SaaS, and enterprise.
+        Every project gets the right stack — chosen for performance, DX, and long-term maintainability.
       </p>
     </div>
 
-    <!-- Manifesto block -->
-    <div class="reveal card p-8 md:p-12 mb-16 relative overflow-hidden">
-      <div class="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-indigo-500 via-violet-500 to-cyan-500 rounded-l-2xl"></div>
-      <blockquote class="ml-4">
-        <p class="text-xl md:text-2xl text-zinc-200 leading-relaxed font-medium italic">
-          "Then I discovered Astro. Pages started loading in 0.3 seconds.
-          Editors stopped complaining. Google started ranking. Clients got more leads.
-          I haven't looked back — and I'm building everything with it now."
-        </p>
-        <footer class="mt-6 text-zinc-500 text-sm">— Osvaldo Martini, 2024</footer>
-      </blockquote>
-    </div>
-
-    <!-- The Stack -->
+    <!-- Outcomes grid -->
     <div class="reveal mb-20">
       <div class="text-center mb-10">
-        <div class="section-label">The Stack</div>
-        <h3 class="text-2xl font-bold text-white">Every tool chosen for a reason.</h3>
+        <div class="section-label">What you get</div>
+        <h3 class="text-2xl font-bold text-white">Outcomes, not just deliverables.</h3>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
-        {stack.map((t, i) => (
-          <div class={`reveal reveal-delay-${i + 1} card p-5 text-center group hover:-translate-y-1 transition-transform duration-200`}>
-            <div class="text-lg font-black mb-2" style={`color: ${t.color};`}>{t.name}</div>
-            <div class="text-zinc-500 text-xs leading-relaxed">{t.description}</div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {outcomes.map((o, i) => (
+          <div class={`reveal reveal-delay-${i + 1} card p-6 group hover:-translate-y-1 transition-transform duration-200`}>
+            <div class="text-3xl font-black mb-1" style={`color: ${o.color};`}>{o.stat}</div>
+            <div class="text-white font-semibold text-sm mb-2">{o.label}</div>
+            <div class="text-zinc-500 text-xs leading-relaxed">{o.detail}</div>
           </div>
         ))}
-      </div>
-    </div>
-
-    <!-- Before / After comparison -->
-    <div class="reveal card p-8 mb-16">
-      <h3 class="text-xl font-bold text-white mb-6 text-center">What the switch looks like.</h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="rounded-xl bg-red-500/5 border border-red-500/15 p-6">
-          <div class="text-red-400 text-xs font-semibold uppercase tracking-wider mb-4">Before (Next.js)</div>
-          <div class="space-y-3 font-mono text-sm">
-            <div class="flex justify-between"><span class="text-zinc-500">LCP</span><span class="text-red-400">3.2s</span></div>
-            <div class="flex justify-between"><span class="text-zinc-500">JS Bundle</span><span class="text-red-400">220KB</span></div>
-            <div class="flex justify-between"><span class="text-zinc-500">Performance</span><span class="text-red-400">67</span></div>
-            <div class="flex justify-between"><span class="text-zinc-500">CMS deploy</span><span class="text-red-400">2–4 min</span></div>
-            <div class="flex justify-between"><span class="text-zinc-500">Editor NPS</span><span class="text-red-400">😐</span></div>
-          </div>
-        </div>
-        <div class="rounded-xl bg-emerald-500/5 border border-emerald-500/15 p-6">
-          <div class="text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-4">After (Astro + Sanity)</div>
-          <div class="space-y-3 font-mono text-sm">
-            <div class="flex justify-between"><span class="text-zinc-500">LCP</span><span class="text-emerald-400">0.31s</span></div>
-            <div class="flex justify-between"><span class="text-zinc-500">JS Bundle</span><span class="text-emerald-400">11KB</span></div>
-            <div class="flex justify-between"><span class="text-zinc-500">Performance</span><span class="text-emerald-400">100</span></div>
-            <div class="flex justify-between"><span class="text-zinc-500">CMS deploy</span><span class="text-emerald-400">8s</span></div>
-            <div class="flex justify-between"><span class="text-zinc-500">Editor NPS</span><span class="text-emerald-400">😍</span></div>
-          </div>
-        </div>
       </div>
     </div>
 
@@ -134,3 +109,76 @@ const stack = [
     </div>
   </div>
 </section>
+
+<script>
+  // Animated node-graph background for the studio section
+  const canvas = document.getElementById('studio-canvas') as HTMLCanvasElement | null;
+  if (!canvas) throw new Error('no canvas');
+  const ctx = canvas.getContext('2d')!;
+
+  const resize = () => {
+    canvas.width  = canvas.clientWidth  * devicePixelRatio;
+    canvas.height = canvas.clientHeight * devicePixelRatio;
+    ctx.scale(devicePixelRatio, devicePixelRatio);
+  };
+  resize();
+  window.addEventListener('resize', resize);
+
+  const NODE_COUNT = 45;
+  const W = () => canvas.clientWidth;
+  const H = () => canvas.clientHeight;
+
+  const COLORS = ['99,102,241', '139,92,246', '34,211,238', '168,85,247'];
+
+  const nodes = Array.from({ length: NODE_COUNT }, (_, i) => ({
+    x: Math.random() * W(),
+    y: Math.random() * H(),
+    vx: (Math.random() - 0.5) * 0.45,
+    vy: (Math.random() - 0.5) * 0.45,
+    r: 1.5 + Math.random() * 3,
+    color: COLORS[i % COLORS.length],
+  }));
+
+  const LINK_DIST = 180;
+
+  const draw = () => {
+    requestAnimationFrame(draw);
+    ctx.clearRect(0, 0, W(), H());
+
+    const w = W(), h = H();
+
+    nodes.forEach(n => {
+      n.x += n.vx;
+      n.y += n.vy;
+      if (n.x < 0 || n.x > w) n.vx *= -1;
+      if (n.y < 0 || n.y > h) n.vy *= -1;
+    });
+
+    // Draw edges
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const dx = nodes[i].x - nodes[j].x;
+        const dy = nodes[i].y - nodes[j].y;
+        const d  = Math.sqrt(dx * dx + dy * dy);
+        if (d < LINK_DIST) {
+          const alpha = (1 - d / LINK_DIST) * 0.35;
+          ctx.beginPath();
+          ctx.moveTo(nodes[i].x, nodes[i].y);
+          ctx.lineTo(nodes[j].x, nodes[j].y);
+          ctx.strokeStyle = `rgba(${nodes[i].color},${alpha})`;
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+      }
+    }
+
+    // Draw nodes
+    nodes.forEach(n => {
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${n.color},0.7)`;
+      ctx.fill();
+    });
+  };
+  draw();
+</script>

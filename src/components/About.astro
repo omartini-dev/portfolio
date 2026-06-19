@@ -1,8 +1,11 @@
 ---
 ---
 
-<section id="about" class="py-24 px-6">
-  <div class="max-w-6xl mx-auto">
+<section id="about" class="py-24 px-6 relative overflow-hidden">
+  <!-- Floating tech words canvas -->
+  <canvas id="about-canvas" class="absolute inset-0 w-full h-full pointer-events-none" style="opacity:0.85;"></canvas>
+
+  <div class="max-w-6xl mx-auto relative">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
       <!-- Left: Bio -->
@@ -19,21 +22,20 @@
             enterprise companies across Europe.
           </p>
           <p>
-            From legacy jQuery rewrites to full-stack Astro builds, I've shipped production
+            From legacy jQuery rewrites to full-stack headless builds, I've shipped production
             software at every scale — solo, in distributed teams, and as a lead across
             multi-client agency environments.
           </p>
           <p>
             Today I run my own <span class="text-white font-medium">studio</span>, helping
-            companies ditch slow, bloated websites and replace them with fast, CMS-driven
-            platforms built on <span class="text-white font-medium">Astro</span> and
-            <span class="text-white font-medium">Sanity</span>.
+            companies replace slow, bloated websites with fast, CMS-driven platforms.
           </p>
         </div>
 
         <div class="flex flex-wrap gap-3 mt-8">
           <span class="tech-badge">Astro</span>
           <span class="tech-badge">Next.js</span>
+          <span class="tech-badge">Svelte</span>
           <span class="tech-badge">React</span>
           <span class="tech-badge">TypeScript</span>
           <span class="tech-badge">Sanity CMS</span>
@@ -62,7 +64,7 @@
           <div class="card p-6">
             <div class="text-4xl font-black gradient-text mb-2">100</div>
             <div class="text-zinc-300 font-medium">Lighthouse score</div>
-            <div class="text-zinc-600 text-sm mt-1">On every Astro build</div>
+            <div class="text-zinc-600 text-sm mt-1">On every optimized build</div>
           </div>
         </div>
 
@@ -86,3 +88,66 @@
     </div>
   </div>
 </section>
+
+<script>
+  const canvas = document.getElementById('about-canvas') as HTMLCanvasElement | null;
+  if (!canvas) throw new Error('no canvas');
+  const ctx = canvas.getContext('2d')!;
+
+  const resize = () => {
+    canvas.width  = canvas.clientWidth  * devicePixelRatio;
+    canvas.height = canvas.clientHeight * devicePixelRatio;
+    ctx.scale(devicePixelRatio, devicePixelRatio);
+  };
+  resize();
+  window.addEventListener('resize', resize);
+
+  const WORDS = [
+    'HTML', 'CSS', 'JavaScript', 'TypeScript', 'React', 'Next.js',
+    'Astro', 'Svelte', 'Vue', 'Node.js', 'Tailwind', 'Sanity',
+    'GraphQL', 'REST', 'Vite', 'Webpack', 'Git', 'Vercel',
+    'SSG', 'SSR', 'ISR', 'a11y', 'SEO', 'LCP',
+  ];
+
+  const W = () => canvas.clientWidth;
+  const H = () => canvas.clientHeight;
+
+  const particles = WORDS.map((word, i) => ({
+    word,
+    x: Math.random() * W(),
+    y: H() + Math.random() * H(),
+    speed: 0.3 + Math.random() * 0.35,
+    opacity: 0.12 + Math.random() * 0.18,
+    size: 12 + Math.random() * 8,
+    phase: (i / WORDS.length) * Math.PI * 2,
+  }));
+
+  const draw = () => {
+    requestAnimationFrame(draw);
+    ctx.clearRect(0, 0, W(), H());
+    ctx.font = `500 13px 'JetBrains Mono', monospace`;
+
+    particles.forEach(p => {
+      p.y -= p.speed;
+      p.x += Math.sin(p.y * 0.008 + p.phase) * 0.4;
+
+      if (p.y < -30) {
+        p.y = H() + 20;
+        p.x = Math.random() * W();
+      }
+
+      // fade in near top, fade out at very top
+      const fadeTop = Math.min(p.y / 80, 1);
+      const alpha = p.opacity * fadeTop;
+
+      const colors = ['#818cf8', '#c084fc', '#67e8f9', '#a5f3fc'];
+      ctx.globalAlpha = alpha;
+      ctx.fillStyle = colors[Math.floor(p.phase * 4 / (Math.PI * 2)) % colors.length];
+      ctx.font = `600 ${p.size}px 'JetBrains Mono', monospace`;
+      ctx.fillText(p.word, p.x, p.y);
+    });
+
+    ctx.globalAlpha = 1;
+  };
+  draw();
+</script>
